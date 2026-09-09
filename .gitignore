@@ -1,11 +1,164 @@
-.venv/
-__pycache__/
-*.pyc
-.DS_Store
-.env
+# ==============================
 
+# Python
+
+# ==============================
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache / tools
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ==============================
+
+# IDE / Editor
+
+# ==============================
+
+.vscode/
+.idea/
+
+# ==============================
+
+# OS
+
+# ==============================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================
+
+# Environment / Secrets
+
+# ==============================
+
+.env
+.env.*
+!.env.example
+
+# ==============================
+
+# Raw / External Data
+
+# 대용량 원본 데이터는 GitHub에 업로드하지 않음
+
+# ==============================
+
+data/raw/
+data/raw_archive/
+data/external/
+
+# ==============================
+
+# Processed Data
+
+# 필요에 따라 작은 결과 파일만 Git에 포함
+
+# ==============================
+
+data/processed/*.parquet
+data/processed/*.pkl
+data/processed/*.pickle
+
+# 특정 대용량 CSV를 제외하고 싶을 경우
+
+data/processed/*_large.csv
+
+# ==============================
+
+# Model Checkpoints / Weights
+
+# ==============================
+
+models/
 checkpoints/
 *.pt
 *.pth
+*.ckpt
+*.onnx
 
-data/raw/
+# ==============================
+
+# Training Outputs
+
+# ==============================
+
+runs/
+logs/
+wandb/
+tensorboard/
+lightning_logs/
+
+# ==============================
+
+# Temporary Files
+
+# ==============================
+
+tmp/
+temp/
+*.tmp
+*.log
+
+# ==============================
+
+# Jupyter
+
+# ==============================
+
+.ipynb_checkpoints/
+
+# ==============================
+
+# Build / Packaging
+
+# ==============================
+
+build/
+dist/
+*.egg-info/
+
+# ==============================
+
+# Coverage
+
+# ==============================
+
+.coverage
+htmlcov/
+
+# ==============================
+
+# Optional large data formats
+
+# ==============================
+
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# ==============================
+
+# Keep folder structure
+
+# ==============================
+
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!models/.gitkeep
