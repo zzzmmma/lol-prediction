@@ -53,15 +53,15 @@ desktop.ini
 
 # ==============================
 
-# Raw / External Data
+# Raw / external data는 무시
+data/raw/*
+data/raw_archive/*
+data/external/*
 
-# 대용량 원본 데이터는 GitHub에 업로드하지 않음
-
-# ==============================
-
-data/raw/
-data/raw_archive/
-data/external/
+# 폴더 유지용 파일은 허용
+!data/raw/.gitkeep
+!data/raw_archive/.gitkeep
+!data/external/.gitkeep
 
 # ==============================
 
