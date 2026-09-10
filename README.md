@@ -1,27 +1,54 @@
 # LCK 경기 데이터 전처리
 
-2015~2026 Oracle's Elixir 연간 CSV를 읽어 **게임(세트)당 1행**으로 변환한다. Python 표준 라이브러리만 사용하며 Transformer, ELO 및 경기력 추가 feature는 구현하지 않는다. 기존 `src/model.py`, `train.py`, `evaluate.py`, `dataset.py`, `utils.py`는 빈 파일이어서 변경하지 않았다.
+Oracle's Elixir 연간 CSV를 읽어 **게임(세트)당 1행**으로 변환한다. 현재 검증 범위는 2015~2026이며, 이후 연도도 CLI와 일정 설정으로 추가할 수 있다. Python 3.10 이상 표준 라이브러리만 사용하며 Transformer, ELO 및 경기력 추가 feature는 구현하지 않는다. 기존 `src/model.py`, `train.py`, `evaluate.py`, `dataset.py`, `utils.py`는 빈 파일이어서 변경하지 않았다.
+
+요구사항 대조, 수정된 Baron 정답 4개, 검증 수치와 변경 파일 목록은 [데이터셋 점검 결과](docs/dataset_review.md)를 참조한다.
 
 ## 실행
 
+프로젝트 루트에서 실행한다. Windows PowerShell:
+
+```powershell
+# .venv가 없는 새 환경에서만 생성 (Mac의 .venv를 복사하지 않는다)
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe main.py preprocess --start-year 2015 --end-year 2026
+.\.venv\Scripts\python.exe main.py validate
+.\.venv\Scripts\python.exe main.py split
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+macOS:
+
 ```bash
-.venv/bin/python main.py preprocess
+python3 -m venv .venv  # 새 환경에서만 생성
+.venv/bin/python main.py preprocess --start-year 2015 --end-year 2026
 .venv/bin/python main.py validate
 .venv/bin/python main.py split
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-`preprocess`는 split을 만들지 않는다. `split`을 별도로 실행하면 기본적으로 대회 연도 2015~2026의 `Regular Season`을 train, `Playoff`를 test로 저장한다. 원본에서 승자가 확정되지 않은 레코드는 split에서 제외한다. 다른 타깃의 결측은 그대로 유지하므로 향후 학습 시 타깃별 마스킹이 필요하다.
+데이터 작업에는 `pip install -r requirements.txt`가 필요 없다. 기존 `requirements.txt`의 모델·분석 라이브러리 버전 목록은 이번에 변경하거나 설치하지 않았다. 이후 PyTorch 환경은 각 OS에서 별도로 준비한다. `data/raw/`는 Git에서 제외되므로 새 컴퓨터에는 원본 CSV를 별도로 복사하거나 수집해야 한다.
 
-`preprocess --strict-targets`는 파일과 검증 보고서를 생성한 후 7개 타깃 중 미확정 값이 있으면 종료 코드 2를 반환한다. 분석 count 결측은 별도로 집계한다. 원본 연간 파일 누락, 중복 참가자, 잘못된 패치, 메타데이터 불일치 등 구조 오류는 최종 데이터셋 생성을 중단하며 `structural_errors.json`에 기록한다.
+`preprocess`의 기본 시작 연도는 2015이고, `--end-year` 생략 시 원본 폴더의 최대 연도까지 처리한다. 범위 중간의 연간 파일 누락은 오류다. `split`을 별도로 실행하면 **데이터셋에 있는 모든 연도**의 `Regular Season`을 train, `Playoff`를 test로 저장한다. 원본에서 승자가 확정되지 않은 레코드는 split에서 제외한다. 다른 타깃의 결측은 그대로 유지하므로 향후 학습 시 타깃별 마스킹이 필요하다.
+
+`preprocess --strict-targets`는 파일과 검증 보고서를 생성한 후 7개 타깃 중 미확정 값이 있으면 종료 코드 2를 반환한다. `validate --strict-targets`도 결측 target이 있으면 2를 반환한다. 기본 `validate`는 결측 자체를 오류로 보지 않고 집계한다. 분석 count 결측은 별도로 집계한다. 원본 파일 누락·중복 후보·필수 헤더 누락은 입력 단계에서 오류를 낸다. 중복 참가자, 잘못된 패치, 팀명/메타데이터 불일치 등 경기 구조 오류는 `structural_errors.json`에 기록하고 데이터셋 생성을 중단한다. 실패한 실행은 이전에 성공한 데이터셋을 지우지 않으므로 종료 코드를 확인한다.
 
 ## 파일 구조
 
 ```text
+main.py                          # 수집 / 전처리 / 검증 / split CLI
+requirements.txt                 # 기존 환경의 라이브러리 목록
+config/stage_calendar.json       # 확인된 승강전/포스트시즌 날짜 경계
+src/
+├── collect.py                   # 원본 보존 수집
+├── preprocess.py                # 타깃 생성, 변환, 감사, vocabulary, 검증
+├── splits.py                    # stage 및 사용자 조건에 따른 분할
+└── dataset.py / model.py / train.py / evaluate.py / utils.py  # 현재 빈 파일
+tests/test_preprocessing.py      # 회귀 및 파이프라인 테스트
 data/
 ├── raw/                         # 기존 연간 CSV 12개, 읽기 전용 취급
 ├── processed/
-│   ├── games.csv                # 한 게임당 1행, 35개 열 (입력 20 + 메타데이터 6 + 타깃 7 + 분석 2)
+│   ├── games.csv                # 한 게임당 1행, 37개 열 (입력 20 + 메타데이터 8 + 타깃 7 + 분석 2)
 │   ├── player_vocab.json        # 전체 데이터의 선수명 -> ID
 │   ├── champion_vocab.json      # 전체 데이터의 챔피언명 -> ID
 │   ├── validation_report.json   # 전체/연도/stage/타깃 분포, 결측, 중복
@@ -38,7 +65,7 @@ data/
     └── split_manifest.json      # 선택 조건, 제외 수, 입력 해시
 ```
 
-`games.csv`의 최종 35개 열 (저장 순서):
+`games.csv`의 최종 37개 열 (저장 순서):
 
 ```text
 game_id
@@ -47,6 +74,8 @@ year
 split
 stage
 patch
+blue_team
+red_team
 blue_player_top
 blue_player_jungle
 blue_player_mid
@@ -80,6 +109,8 @@ red_dragon_count
 
 `INPUTS`는 기존 선수 10명 + 챔피언 10명만 포함한다. `DRAGON_COUNTS`는 분석 전용이고 `TARGETS`는 예측 정답이다. `validation_report.json`과 `split_manifest.json`의 `column_roles`에도 이 구분을 기록한다. CSV 전체에서 메타데이터만 제외해 모델 입력을 만드는 방식은 사용하지 않는다.
 
+`blue_team`, `red_team`은 OE 팀 행의 `teamname`을 보존하고 해당 팀 선수 5명의 팀명과 일치하는지 검증한다. 분석용 메타데이터이므로 입력에는 포함하지 않는다. 입력 token 0~4/5~9는 Blue/Red 선수, 10~14/15~19는 Blue/Red 챔피언이다. 이후 모델은 선수·챔피언별 별도 `nn.Embedding`, embedding 차원 256, 고정 위치 및 side/role 정보를 표현하도록 구현할 예정이다. 현재 단계에서는 embedding과 학습 코드를 구현하지 않는다.
+
 선수와 챔피언 슬롯 순서는 TOP → JUNGLE → MID → ADC → SUPPORT이며 OE `jng/bot/sup`를 정규화한다. `patch`는 문자열로 보존하고 비교할 때 정수 쌍을 사용한다. `date`는 원본 시각을 보존하며 원본에 없는 시간대는 부여하지 않는다. `year`는 **원본 대회 연도**다. 가을 승강전의 대회 연도가 실제 경기 날짜보다 다음 해일 수 있다. 달력 연도는 provenance에 보존한다.
 
 ## 대회 구분과 범위
@@ -88,6 +119,7 @@ red_dragon_count
 - Spring/Summer 정규 및 playoffs를 구분하고 승강전(`Promotion`)과 빈 split인 선발전(`Regional Qualifier`)을 분리한다. 승강전은 대회 연도/날짜 불일치 및 Summer 시작 전 날짜로 식별한다.
 - 2025~2026 `Cup`은 별도 `Cup`으로 보존한다. Cup 내부 세부 단계는 원본 playoffs 플래그로 구분할 수 없어 정규시즌/시즌 플레이오프에 넣지 않는다.
 - `Rounds 1-2`의 postseason은 `Road to MSI`, 마지막 라운드 postseason은 날짜 경계에 따라 `Play-In`/`Playoff`로 구분한다. 시즌 플레이오프 시작은 2025-09-10, 2026-08-29이다.
+- 날짜 경계는 `config/stage_calendar.json`에 있다. 새 시즌의 `Rounds 3-*` postseason을 추가할 때 확인된 날짜를 `playoff_start`에 추가하거나 `preprocess --stage-calendar 경로.json`을 사용한다. 사용자 파일은 기본 일정 전체를 대체하므로 기존 연도 경계도 포함한다. 일정이 없는 새 시즌의 postseason은 추정하지 않고 오류를 낸다. 대회 형식 자체가 바뀌면 분류 규칙도 검토해야 한다.
 - 현재 결과는 **보유 원본의 전체 LCK/OGN 레코드**이며, 독립적인 전체 공식 경기 목록과 대조한 완전성 인증은 아니다. 2026 파일은 2026-09-06까지만 포함한다. 아직 열리지 않았거나 원본에 없는 경기를 생성하지 않는다.
 - 2023-08-04 `ESPORTSTMNT01_3408461`은 201초 길이에 양 팀 result=0인 레코드다. 임의로 승자를 넣거나 정식 완료 경기라고 확정하지 않는다. 원래 stage로 보존하고 split에서 제외한다.
 
@@ -107,9 +139,11 @@ red_dragon_count
 | `first_four_dragon_side` | 일반 드래곤 4개를 먼저 획득한 팀. 양 팀 모두 4 미만이면 NONE, 둘 다 4 이상이면 완전한 이벤트 순서 없이는 missing. |
 | `dragon_soul_side` | 9.23 이전 N/A. 도입 이후 일반 드래곤 4개 도달 팀, 미획득 NONE, 판단 불가 missing. |
 | `elder_dragon_side` | 6.9 이전 N/A. 첫 장로 획득 팀, 양 팀 장로 0개이면 NONE. 양쪽 모두 획득하고 순서가 없으면 missing. |
-| `first_baron_side` | firstbaron 기준 첫 획득 팀. 누락일 때만 한쪽 단독 획득/양쪽 0 같은 확정 가능한 barons 합계로 보완. 미획득 NONE. |
+| `first_baron_side` | firstbaron 기준 첫 획득 팀. 누락일 때만 한쪽 단독 획득/양쪽 0 같은 확정 가능한 barons 합계로 보완. 양 팀 1, 비정상 플래그, 플래그와 합계의 모순은 missing. 미획득 NONE. |
 
 `blue_dragon_count`, `red_dragon_count`는 **경기 후 결과**이며 타깃 생성/분석용이다. 정상적인 `elementaldrakes`를 우선 사용하고, 필드가 비어 있을 때만 `dragons - elders`로 복원한다. 원본의 OE `dragons`는 장로를 포함한다. 누락·음수·비정수·잘못된 값, `dragons < elders`, 양수인 `dragons (type unknown)`, Soul 도입 이후 4마리 초과 등 확정 불가능한 count는 missing으로 남긴다. 알려진 반대편 count는 유지한다. 비정상 elementaldrakes를 다른 값으로 덮어서 추정하지 않는다.
+
+6.9 이후 정상적인 `elementaldrakes`와 `dragons - elders`가 서로 다르면 해당 팀 count도 missing이다. Soul 도입 이후 양 팀 모두 4개인 모순은 어느 쪽이 틀렸는지 알 수 없으므로 양 팀 count를 missing으로 처리한다. 이벤트 입력에서도 Soul 획득 뒤 일반 드래곤, Soul 이전 장로, 음수/boolean timestamp는 거부한다.
 
 **2015~6.9 이전 원본은 firstdragon이 기록되어 있는데도 dragons 합계가 전부 0**이다. 이 구간은 기존 보호 로직을 유지해 합계에서 count를 복원하지 않는다. count가 없으면 more/first-four도 missing이며, 정상적인 `firstdragon` 플래그는 독립적으로 사용할 수 있다. 시스템 도입 전 N/A는 Soul/Elder에만 적용한다. 유효한 별도 elementaldrakes 또는 완전한 이벤트 기록이 있으면 count 복원에 사용할 수 있다.
 
@@ -157,6 +191,8 @@ vocabulary는 정렬된 토큰에 연속 정수 ID를 부여하며 `<UNK>`는 �
 ## 원본 수집·보존
 
 이미 있는 연간 CSV 12개를 재사용하며 바이트를 변경하지 않는다. `raw_manifest.json`에 SHA-256을 남긴다. 외부 수집이 필요하면 공식 다운로드 페이지에서 유효한 HTTPS URL을 확인하여 `collect --url-template '확인한 {year} 포함 URL'`에 전달한다. 기존 파일은 덮어쓰지 않는다. 새 스냅샷은 다른 `--raw-dir`에 수집하고 그 경로로 preprocess를 실행한다. URL을 코드에서 추정하거나 미확인 최신 파일로 기존 원본을 교체하지 않는다.
+
+`collect`의 기본 종료 연도는 실행 시점의 현재 연도이며 `--end-year`로 제한할 수 있다. 수집과 전처리 모두 `2024_LoL_esports_match_data_from_OraclesElixir (1).csv` 같은 브라우저 다운로드 이름을 인식한다. 같은 연도 파일이 여러 개라면 자동으로 선택하거나 합치지 않고 오류를 낸다. 필요한 스냅샷을 별도 폴더에 모아 `--raw-dir`로 지정한다. 현재 원본 파일을 개명할 필요는 없다.
 
 ## 참고 출처
 

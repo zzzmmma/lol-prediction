@@ -1,43 +1,15 @@
 {
   "dataset": {
-    "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/processed/games.csv",
-    "bytes": 1401349,
-    "sha256": "97f0d5ed502cfad209f4a8788e5fdea9d746caed3076e0a240b46f5f1edf9f4d"
+    "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\processed\\games.csv",
+    "bytes": 1541224,
+    "sha256": "3d7d7b11b50a316e55898f2c3a95a65554adca1e2ac74294de41b7f78f3a8eab"
   },
   "train_filter": {
-    "years": [
-      2015,
-      2016,
-      2017,
-      2018,
-      2019,
-      2020,
-      2021,
-      2022,
-      2023,
-      2024,
-      2025,
-      2026
-    ],
     "stages": [
       "Regular Season"
     ]
   },
   "test_filter": {
-    "years": [
-      2015,
-      2016,
-      2017,
-      2018,
-      2019,
-      2020,
-      2021,
-      2022,
-      2023,
-      2024,
-      2025,
-      2026
-    ],
     "stages": [
       "Playoff"
     ]
@@ -90,7 +62,9 @@
       "year",
       "split",
       "stage",
-      "patch"
+      "patch",
+      "blue_team",
+      "red_team"
     ]
   },
   "note": "Stage split is not chronological: later regular games can follow earlier test games. Missing targets retained; mask per target before training."

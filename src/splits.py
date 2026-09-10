@@ -16,9 +16,9 @@ def create_splits(dataset, output_dir, train_filter=None, test_filter=None):
     rows = read_games(dataset)
     validate(rows)
     train_filter = train_filter if train_filter is not None else {
-        'years': list(range(2015, 2027)), 'stages': ['Regular Season']}
+        'stages': ['Regular Season']}
     test_filter = test_filter if test_filter is not None else {
-        'years': list(range(2015, 2027)), 'stages': ['Playoff']}
+        'stages': ['Playoff']}
     eligible = [r for r in rows if r['winner_side'] in ('BLUE', 'RED')]
     train, test = select(eligible, **train_filter), select(eligible, **test_filter)
     overlap = {r['game_id'] for r in train} & {r['game_id'] for r in test}

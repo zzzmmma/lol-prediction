@@ -1,3 +1,6 @@
+import contextlib
+import io
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,7 +20,7 @@ def teams(blue=4, red=2, blue_elders=0, red_elders=0):
 def game(game_id='a', stage='Regular Season'):
     row = dict.fromkeys(COLUMNS, '')
     row.update(game_id=game_id, date='2024-01-01 10:00:00', year=2024,
-               split='Spring', stage=stage, patch='14.01')
+               split='Spring', stage=stage, patch='14.01', blue_team='Blue Team', red_team='Red Team')
     row.update({c: c for c in INPUTS})
     row.update(derive_targets(teams(), (14, 1))[0])
     return row
@@ -186,7 +189,7 @@ class ExpandedDragonTest(unittest.TestCase):
         from src.preprocess import DRAGON_COUNTS, TARGETS, column_roles
         self.assertEqual(len(INPUTS), 20)
         self.assertFalse(set(INPUTS) & set((*TARGETS, *DRAGON_COUNTS)))
-        self.assertEqual(len(COLUMNS), 35)
+        self.assertEqual(len(COLUMNS), 37)
         r = game()
         report = validate([r])
         self.assertEqual(set(report['target_distributions']), set(TARGETS))
@@ -248,6 +251,7 @@ class IngestionTest(unittest.TestCase):
                 rows.append(dict(gameid='fixture', date='2024-01-01 10:00:00', year='2024',
                                  split='Spring', playoffs='0', patch='14.01', league='LCK',
                                  side=side.title(), position=role, playername=f'{side}-{role}',
+                                 teamname=f'{side} Team',
                                  champion=f'champion-{side}-{role}', result='1' if side == 'BLUE' else '0',
                                  firstbaron='1' if side == 'BLUE' else '0',
                                  firstdragon='1' if side == 'BLUE' else '0',
@@ -267,6 +271,8 @@ class IngestionTest(unittest.TestCase):
                 rows, report = preprocess(directory, Path(directory) / 'out', 2024, 2024)
             self.assertEqual(len(rows), 1)
             self.assertEqual(rows[0]['blue_player_jungle'], 'BLUE-jng')
+            self.assertEqual(rows[0]['blue_team'], 'BLUE Team')
+            self.assertEqual(rows[0]['red_team'], 'RED Team')
             self.assertEqual(report['total_missing_cells'], 0)
             from src.preprocess import TARGETS, DRAGON_COUNTS
             audit = read_games(Path(directory) / 'out/target_audit.csv')
@@ -303,6 +309,166 @@ class IngestionTest(unittest.TestCase):
             report = create_splits(path, Path(directory) / 'splits')
             self.assertEqual(report['train_games'], 1)
             self.assertEqual(report['unresolved_winner_games'], 1)
+
+
+class RegressionTest(unittest.TestCase):
+    def test_conflicting_elemental_and_total_counts_are_missing(self):
+        t = teams()
+        t['BLUE']['dragons'] = '3'
+        values, reasons = derive_targets(t, (14, 1))
+        self.assertIsNone(values['blue_dragon_count'])
+        self.assertEqual(values['red_dragon_count'], 2)
+        self.assertIsNone(values['more_dragons_side'])
+        self.assertEqual(reasons['blue_dragon_count'], 'conflicting_dragon_totals')
+
+    def test_impossible_two_souls_not_a_tie(self):
+        values, _ = derive_targets(teams(4, 4), (14, 1))
+        for c in ('blue_dragon_count', 'red_dragon_count', 'more_dragons_side',
+                  'first_four_dragon_side', 'dragon_soul_side'):
+            self.assertIsNone(values[c], c)
+        row = game()
+        row.update(blue_dragon_count=4, red_dragon_count=4, more_dragons_side='TIE',
+                   first_four_dragon_side=None, dragon_soul_side=None)
+        with self.assertRaises(ValueError):
+            validate([row])
+
+    def test_baron_conflicts_are_missing(self):
+        cases = [('1', '0', '0', '1'), ('0', '0', '1', '0'),
+                 ('1', '1', '1', '1'), ('bad', '0', '1', '0'),
+                 ('0', '', '1', '0')]
+        for blue_flag, red_flag, blue_count, red_count in cases:
+            with self.subTest(flags=(blue_flag, red_flag)):
+                t = teams()
+                t['BLUE'].update(firstbaron=blue_flag, barons=blue_count)
+                t['RED'].update(firstbaron=red_flag, barons=red_count)
+                self.assertIsNone(derive_targets(t, (14, 1))[0]['first_baron_side'])
+
+    def test_baron_missing_flags_only_use_conclusive_totals(self):
+        for blue, red, expected in [(2, 0, 'BLUE'), (0, 1, 'RED'), (0, 0, 'NONE'), (1, 1, None), ('bad', 0, None)]:
+            t = teams()
+            for side, n in zip(('BLUE', 'RED'), (blue, red)):
+                t[side].update(firstbaron='', barons=str(n))
+            self.assertEqual(derive_targets(t, (14, 1))[0]['first_baron_side'], expected)
+
+    def test_invalid_timeline_order_and_timestamps(self):
+        for timestamp in (-1, True):
+            with self.assertRaises(ValueError):
+                derive_targets(teams(), (14, 1), dict(source='fixture', complete=True,
+                    events=[dict(timestamp_ms=timestamp, monster='DRAGON', side='BLUE')]))
+        events = [dict(timestamp_ms=i, monster='DRAGON', side='BLUE') for i in range(4)]
+        events.append(dict(timestamp_ms=4, monster='DRAGON', side='RED'))
+        with self.assertRaisesRegex(ValueError, 'after soul'):
+            derive_targets(teams(), (14, 1), dict(source='fixture', complete=True, events=events))
+        with self.assertRaisesRegex(ValueError, 'before soul'):
+            derive_targets(teams(), (14, 1), dict(source='fixture', complete=True,
+                events=[dict(timestamp_ms=0, monster='ELDER', side='BLUE')]))
+
+    def test_validation_requires_schema_metadata_and_nonempty_dataset(self):
+        with self.assertRaises(ValueError):
+            validate([])
+        for column, value in [('blue_team', ''), ('red_team', 'Blue Team'), ('stage', 'Unknown'), ('year', 'bad')]:
+            row = game()
+            row[column] = value
+            with self.assertRaises(ValueError):
+                validate([row])
+        row = game()
+        del row['blue_team']
+        with self.assertRaisesRegex(ValueError, 'rerun preprocess'):
+            validate([row])
+
+    def test_unknown_count_cannot_prove_first_four_none(self):
+        row = game()
+        row.update(blue_dragon_count='', more_dragons_side='',
+                   first_four_dragon_side='NONE', dragon_soul_side='NONE')
+        with self.assertRaises(ValueError):
+            validate([row])
+
+    def test_future_year_in_default_split_and_train_only_vocab_files(self):
+        rows = [game(), game('test', 'Playoff')]
+        for row in rows:
+            row.update(year=2027, date='2027-01-01 10:00:00', patch='17.1')
+        rows[1]['blue_player_top'] = 'Test Only Player'
+        rows[1]['blue_champion_top'] = 'Test Only Champion'
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'games.csv'
+            write_csv(path, rows, COLUMNS)
+            out = Path(directory) / 'split'
+            report = create_splits(path, out)
+            self.assertEqual((report['train_games'], report['test_games']), (1, 1))
+            for kind in ('player', 'champion'):
+                vocab = json.loads((out / f'{kind}_vocab.json').read_text(encoding='utf-8'))
+                self.assertNotIn(f'Test Only {kind.title()}', vocab)
+                self.assertEqual(vocab['<UNK>'], 0)
+                self.assertEqual(sorted(vocab.values()), list(range(len(vocab))))
+
+    def test_future_calendar_is_configurable_and_never_guessed(self):
+        from src.preprocess import load_stage_calendar
+        row = dict(year='2027', split='Rounds 3-6', date='2027-09-10', playoffs='1')
+        with self.assertRaisesRegex(ValueError, 'No postseason calendar'):
+            classify_stage(row)
+        calendar = load_stage_calendar()
+        calendar['playoff_start']['2027'] = '2027-09-10'  # Synthetic test boundary.
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'calendar.json'
+            path.write_text(json.dumps(calendar), encoding='utf-8-sig')
+            calendar = load_stage_calendar(path)
+        self.assertEqual(classify_stage(row, calendar), 'Playoff')
+        self.assertEqual(classify_stage(row | {'date': '2027-09-09'}, calendar), 'Play-In')
+        self.assertEqual(classify_stage(row | {'playoffs': '0'}, calendar), 'Regular Season')
+
+    def test_download_suffix_auto_end_year_and_raw_preservation(self):
+        from src.preprocess import preprocess
+        from src.collect import collect
+        with tempfile.TemporaryDirectory() as directory:
+            path, _ = IngestionTest().fixture(directory)
+            suffixed = path.with_name(path.stem + ' (1).csv')
+            path.rename(suffixed)
+            original = suffixed.read_bytes()
+            with contextlib.redirect_stdout(io.StringIO()):
+                rows, report = preprocess(directory, Path(directory) / 'out', start_year=2024)
+            self.assertEqual(report['coverage']['requested_years'], [2024])
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(collect(directory, 'https://invalid.example/{year}', [2024])[0]['status'], 'preserved_existing')
+            self.assertEqual(suffixed.read_bytes(), original)
+            self.assertFalse(path.exists())
+            path.write_bytes(original)
+            with self.assertRaisesRegex(ValueError, 'Ambiguous'):
+                preprocess(directory, Path(directory) / 'bad', 2024, 2024)
+
+    def test_missing_raw_year_fails_before_processing(self):
+        from src.preprocess import preprocess
+        with tempfile.TemporaryDirectory() as directory:
+            IngestionTest().fixture(directory)
+            with self.assertRaisesRegex(FileNotFoundError, '2025'):
+                preprocess(directory, Path(directory) / 'out', 2024, 2025)
+            self.assertFalse((Path(directory) / 'out/games.csv').exists())
+
+    def test_ogn_only_in_2015_and_other_leagues_excluded(self):
+        from src.preprocess import preprocess
+        for year in (2015, 2024):
+            with self.subTest(year=year), tempfile.TemporaryDirectory() as directory:
+                path, source = IngestionTest().fixture(directory)
+                rows = [row | dict(gameid=league, league=league, year=str(year),
+                        date=f'{year}-01-01 10:00:00', patch='5.1' if year == 2015 else '14.1')
+                        for league in ('OGN', 'LCK', 'LCK CL', 'LPL') for row in source]
+                path.unlink()
+                path = Path(directory) / f'{year}_LoL_esports_match_data_from_OraclesElixir.csv'
+                write_csv(path, rows, tuple(rows[0]))
+                with contextlib.redirect_stdout(io.StringIO()):
+                    games, _ = preprocess(directory, Path(directory) / 'out', year, year)
+                self.assertEqual({r['game_id'] for r in games}, {'OGN', 'LCK'} if year == 2015 else {'LCK'})
+
+    def test_team_metadata_conflicts_are_structural_errors(self):
+        from src.preprocess import preprocess
+        with tempfile.TemporaryDirectory() as directory:
+            path, rows = IngestionTest().fixture(directory)
+            rows[0]['teamname'] = 'Wrong Team'
+            write_csv(path, rows, tuple(rows[0]))
+            out = Path(directory) / 'out'
+            with self.assertRaisesRegex(ValueError, 'structural errors'):
+                preprocess(directory, out, 2024, 2024)
+            self.assertIn('teamname', json.loads((out / 'structural_errors.json').read_text())[0]['error'])
+            self.assertFalse((out / 'games.csv').exists())
 
 
 if __name__ == '__main__':

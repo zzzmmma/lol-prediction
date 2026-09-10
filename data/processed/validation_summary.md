@@ -37,7 +37,7 @@
 | first_four_dragon_side | 924 | 1063 | 3194 | 0 | 0 | 682 |
 | dragon_soul_side | 716 | 855 | 1842 | 2406 | 0 | 44 |
 | elder_dragon_side | 347 | 364 | 4438 | 637 | 0 | 77 |
-| first_baron_side | 2827 | 2648 | 388 | 0 | 0 | 0 |
+| first_baron_side | 2827 | 2648 | 384 | 0 | 0 | 4 |
 
 | 분석용 Dragon count | 확인됨 | 0개 | 결측 |
 |---|---:|---:|---:|
@@ -46,7 +46,7 @@
 
 Dragon count 2개는 분석/타깃 생성용이며 모델 입력은 선수·챔피언 20개로 제한한다.
 
-전체 결측 셀: 2,842
+전체 결측 셀: 2,846
 중복 game_id: 0
 
 입력/메타데이터 열의 결측 개수 및 타깃별 결측은 validation_report.json 참조.

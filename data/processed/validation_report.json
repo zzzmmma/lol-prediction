@@ -77,10 +77,10 @@
     "first_baron_side": {
       "BLUE": 2827,
       "RED": 2648,
-      "NONE": 388,
+      "NONE": 384,
       "N/A": 0,
       "TIE": 0,
-      "MISSING": 0
+      "MISSING": 4
     }
   },
   "missing_by_column": {
@@ -90,6 +90,8 @@
     "split": 0,
     "stage": 0,
     "patch": 0,
+    "blue_team": 0,
+    "red_team": 0,
     "blue_player_top": 0,
     "blue_player_jungle": 0,
     "blue_player_mid": 0,
@@ -116,7 +118,7 @@
     "first_four_dragon_side": 682,
     "dragon_soul_side": 44,
     "elder_dragon_side": 77,
-    "first_baron_side": 0,
+    "first_baron_side": 4,
     "blue_dragon_count": 675,
     "red_dragon_count": 681
   },
@@ -174,19 +176,35 @@
       "year",
       "split",
       "stage",
-      "patch"
+      "patch",
+      "blue_team",
+      "red_team"
     ]
   },
   "duplicate_game_ids": {},
-  "missing_target_cells": 1486,
+  "missing_target_cells": 1490,
   "missing_dragon_count_cells": 1356,
-  "total_missing_cells": 2842,
+  "total_missing_cells": 2846,
   "coverage": {
     "status": "source_snapshot_not_independently_exhaustive",
     "date_min": "2015-01-07 08:56:44",
     "date_max": "2026-09-06 11:11:44",
     "source_files": 12,
     "source_game_ids": 5863,
+    "requested_years": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
     "note": "Includes OGN 2015 and all LCK-labelled events. Future games and events absent from OE are not fabricated. Year is competition year; calendar year may differ for promotion."
   },
   "warnings": [

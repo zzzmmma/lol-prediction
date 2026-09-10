@@ -18,7 +18,7 @@ INPUTS = tuple(f'{side.lower()}_{kind}_{role.lower()}'
                for kind in ('player', 'champion') for side in SIDES for role in ROLES.values())
 # Post-game analysis columns must never be added to INPUTS.
 DRAGON_COUNTS = ('blue_dragon_count', 'red_dragon_count')
-METADATA = ('game_id', 'date', 'year', 'split', 'stage', 'patch')
+METADATA = ('game_id', 'date', 'year', 'split', 'stage', 'patch', 'blue_team', 'red_team')
 COLUMNS = METADATA + INPUTS + TARGETS + DRAGON_COUNTS
 TARGET_VALUES = {t: (*SIDES, 'NONE') for t in TARGETS}
 TARGET_VALUES.update(winner_side=SIDES, more_dragons_side=(*SIDES, 'TIE'),
@@ -29,9 +29,38 @@ TARGET_VALUES.update(winner_side=SIDES, more_dragons_side=(*SIDES, 'TIE'),
 def column_roles():
     return {'input_columns': list(INPUTS), 'target_columns': list(TARGETS),
             'analysis_only_columns': list(DRAGON_COUNTS), 'metadata_columns': list(METADATA)}
-SUMMER_START = {2015: '05-20', 2016: '05-25', 2017: '05-30', 2018: '06-12',
-                2019: '06-05', 2020: '06-17'}
-PLAYOFF_START = {2025: '2025-09-10', 2026: '2026-08-29'}
+DEFAULT_STAGE_CALENDAR = Path(__file__).resolve().parents[1] / 'config/stage_calendar.json'
+STAGES = ('Regular Season', 'Playoff', 'Cup', 'Promotion', 'Regional Qualifier',
+          'Road to MSI', 'Play-In')
+RAW_FILENAME = re.compile(r'(\d{4})_LoL_esports_match_data_from_OraclesElixir(?: \(\d+\))?\.csv')
+
+
+def discover_raw_files(raw_dir):
+    """Recognize browser download suffixes without renaming any source file."""
+    found = defaultdict(list)
+    for path in sorted(Path(raw_dir).glob('*.csv')):
+        match = RAW_FILENAME.fullmatch(path.name)
+        if match:
+            found[int(match[1])].append(path)
+    return dict(found)
+
+
+def resolve_raw_file(paths):
+    if len(paths) > 1:
+        raise ValueError(f'Ambiguous raw snapshots; use a directory with one file per year: {paths}')
+    return paths[0]
+
+
+def load_stage_calendar(path=None):
+    calendar = json.loads(Path(path or DEFAULT_STAGE_CALENDAR).read_text(encoding='utf-8-sig'))
+    for name in ('summer_start', 'playoff_start'):
+        if not isinstance(calendar.get(name), dict):
+            raise ValueError(f'Stage calendar needs a {name} object')
+        for year, day in calendar[name].items():
+            parsed = datetime.strptime(day, '%Y-%m-%d')
+            if str(parsed.year) != year or parsed.strftime('%Y-%m-%d') != day:
+                raise ValueError(f'Invalid calendar boundary: {year} {day}')
+    return calendar
 
 
 def write_json(path, value):
@@ -83,28 +112,31 @@ def count(value):
     return int(number)
 
 
-def classify_stage(row):
+def classify_stage(row, calendar=None):
+    calendar = calendar if calendar is not None else load_stage_calendar()
     year, split, day = int(row['year']), row['split'], row['date'][:10]
+    rounds = re.fullmatch(r'Rounds 3-(\d+)', split)
+    later_rounds = rounds is not None and int(rounds[1]) > 3
     if split == 'Cup':
         return 'Cup'
     if not split:
         return 'Regional Qualifier'
     if year != int(day[:4]):
         return 'Promotion'
-    if split == 'Summer' and year in SUMMER_START and day < f'{year}-{SUMMER_START[year]}':
+    if split == 'Summer' and str(year) in calendar['summer_start'] and day < calendar['summer_start'][str(year)]:
         return 'Promotion'
     if row['playoffs'] not in ('0', '1'):
         raise ValueError(f"Unknown playoffs flag: {row['playoffs']!r}")
     if row['playoffs'] == '1':
         if split == 'Rounds 1-2':
             return 'Road to MSI'
-        if split.startswith('Rounds 3-'):
-            if year not in PLAYOFF_START:
-                raise ValueError(f'No postseason calendar for {year}')
-            return 'Play-In' if day < PLAYOFF_START[year] else 'Playoff'
+        if later_rounds:
+            if str(year) not in calendar['playoff_start']:
+                raise ValueError(f'No postseason calendar for {year}; supply --stage-calendar with a verified boundary')
+            return 'Play-In' if day < calendar['playoff_start'][str(year)] else 'Playoff'
         if split in ('Spring', 'Summer'):
             return 'Playoff'
-    elif split in ('Spring', 'Summer', 'Rounds 1-2', 'Rounds 3-5', 'Rounds 3-4'):
+    elif split in ('Spring', 'Summer', 'Rounds 1-2') or later_rounds:
         return 'Regular Season'
     raise ValueError(f'Unknown competition: {year} {split}')
 
@@ -150,8 +182,12 @@ def dragon_counts(teams, patch):
             value, reason = total - elder, 'dragons_minus_elders'
         if patch >= (9, 23) and value is not None and value > 4:
             value, reason = None, 'impossible_post_soul_drake_total'
+        if patch >= (6, 9) and value is not None and total is not None and elder is not None and total - elder != value:
+            value, reason = None, 'conflicting_dragon_totals'
         values.append(value)
         reasons.append(reason)
+    if patch >= (9, 23) and all(n is not None and n >= 4 for n in values):
+        return [None, None], ['impossible_both_teams_have_soul'] * 2
     return values, reasons
 
 
@@ -178,21 +214,36 @@ def more_dragons(drakes):
     return ('BLUE' if blue > red else 'RED' if red > blue else 'TIE'), 'compare_dragon_counts'
 
 
+def derive_first_baron(teams):
+    flags = [source_count(teams[s], 'firstbaron') for s in SIDES]
+    totals = [source_count(teams[s], 'barons') for s in SIDES]
+    if any(teams[s].get('firstbaron') not in ('', None) and v not in (0, 1)
+           for s, v in zip(SIDES, flags)) or flags == [1, 1]:
+        return None, 'invalid_or_contradictory_firstbaron_flags'
+    if any(flag == 1 and total == 0 for flag, total in zip(flags, totals)):
+        return None, 'firstbaron_flags_conflict_with_counts'
+    if None not in flags:
+        if flags == [0, 0] and any(n is not None and n > 0 for n in totals):
+            return None, 'firstbaron_flags_conflict_with_counts'
+        return unique_side(flags)[0], 'firstbaron_flags'
+    value, reason = unique_side(totals)
+    if value in SIDES and flags[SIDES.index(value)] == 0:
+        return None, 'firstbaron_flags_conflict_with_counts'
+    return value, reason
+
+
 def derive_targets(teams, patch, timeline=None):
     """Never equate unavailable/ambiguous observations with NONE."""
     result, reasons = {}, {}
-    for target, field in [('winner_side', 'result'), ('first_baron_side', 'firstbaron')]:
-        values = [count(teams[s].get(field)) for s in SIDES]
-        if any(v not in (None, 0, 1) for v in values):
-            raise ValueError(f'Invalid binary {field}')
-        if values == [1, 1]:
-            raise ValueError(f'Both teams have {field}=1')
-        result[target], reasons[target] = unique_side(values)
-        if target == 'winner_side' and result[target] == 'NONE':
-            result[target], reasons[target] = None, 'no_recorded_winner_possible_remake'
-        if target == 'first_baron_side' and result[target] is None:
-            totals = [count(teams[s].get('barons')) for s in SIDES]
-            result[target], reasons[target] = unique_side(totals)
+    values = [count(teams[s].get('result')) for s in SIDES]
+    if any(v not in (None, 0, 1) for v in values):
+        raise ValueError('Invalid binary result')
+    if values == [1, 1]:
+        raise ValueError('Both teams have result=1')
+    result['winner_side'], reasons['winner_side'] = unique_side(values)
+    if result['winner_side'] == 'NONE':
+        result['winner_side'], reasons['winner_side'] = None, 'no_recorded_winner_possible_remake'
+    result['first_baron_side'], reasons['first_baron_side'] = derive_first_baron(teams)
     elder_active, soul_active = patch >= (6, 9), patch >= (9, 23)
     elders = [source_count(teams[s], 'elders') for s in SIDES]
     if elder_active:
@@ -221,7 +272,7 @@ def derive_targets(teams, patch, timeline=None):
         first_four = first_elder = first_baron = first_drake = 'NONE'
         for event in events:
             t, monster, side = event['timestamp_ms'], event['monster'], event['side']
-            if not isinstance(t, int) or t < previous or side not in SIDES or monster not in ('DRAGON', 'ELDER', 'BARON'):
+            if type(t) is not int or t < 0 or t < previous or side not in SIDES or monster not in ('DRAGON', 'ELDER', 'BARON'):
                 raise ValueError('Invalid or unsorted objective event')
             key = (t, monster)
             if key in seen:
@@ -229,6 +280,8 @@ def derive_targets(teams, patch, timeline=None):
             seen.add(key)
             previous = t
             if monster == 'DRAGON':
+                if soul_active and first_four != 'NONE':
+                    raise ValueError('Elemental dragon event after soul acquisition')
                 if first_drake == 'NONE':
                     first_drake = side
                 totals[side] += 1
@@ -239,6 +292,8 @@ def derive_targets(teams, patch, timeline=None):
             elif monster == 'ELDER':
                 if not elder_active:
                     raise ValueError('Elder event before patch 6.9')
+                if soul_active and first_four == 'NONE':
+                    raise ValueError('Elder event before soul acquisition')
                 if first_elder == 'NONE':
                     first_elder = side
             elif first_baron == 'NONE':
@@ -265,6 +320,21 @@ def build_vocab(rows, kind):
 
 
 def validate(rows):
+    if not rows:
+        raise ValueError('Empty dataset')
+    for row in rows:
+        missing = set(COLUMNS) - set(row)
+        if missing:
+            raise ValueError(f'Missing dataset columns: {sorted(missing)}; rerun preprocess')
+        for column in METADATA:
+            if row[column] is None or not str(row[column]).strip():
+                raise ValueError(f'Missing metadata: {column}')
+        if not re.fullmatch(r'\d{4}', str(row['year'])):
+            raise ValueError(f'Invalid competition year: {row["year"]}')
+        if row['stage'] not in STAGES:
+            raise ValueError(f'Unknown stage: {row["stage"]}')
+        if row['blue_team'] == row['red_team']:
+            raise ValueError('Blue and Red teams must differ')
     ids = Counter(r['game_id'] for r in rows)
     for row in rows:
         if not row['game_id']:
@@ -284,11 +354,18 @@ def validate(rows):
             raise ValueError('more_dragons_side disagrees with dragon counts')
         if patch >= (9, 23) and any(n is not None and n > 4 for n in drakes):
             raise ValueError('Impossible post-soul dragon count')
+        if patch >= (9, 23) and all(n is not None and n >= 4 for n in drakes):
+            raise ValueError('Both teams cannot acquire a soul')
         four = row['first_four_dragon_side']
         if four in SIDES and (drakes[SIDES.index(four)] is None or drakes[SIDES.index(four)] < 4):
             raise ValueError('First-four winner has no confirmed four dragons')
         if four == 'NONE' and any(n is not None and n >= 4 for n in drakes):
             raise ValueError('First-four NONE conflicts with dragon counts')
+        if four in (*SIDES, 'NONE') and any(n is None for n in drakes):
+            raise ValueError('First-four cannot be confirmed with incomplete dragon counts')
+        expected_four = unique_side(drakes, 4)[0]
+        if four in SIDES and expected_four not in (None, four):
+            raise ValueError('First-four winner disagrees with dragon counts')
         if patch >= (9, 23) and (row['dragon_soul_side'] or None) != (four or None):
             raise ValueError('Soul target disagrees with first-four target')
         first = row['first_dragon_side']
@@ -349,16 +426,25 @@ def write_summary(path, report):
     Path(path).write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
 
-def preprocess(raw_dir, output_dir, start_year=2015, end_year=2026, events_path=None):
+def preprocess(raw_dir, output_dir, start_year=2015, end_year=None, events_path=None, stage_calendar_path=None):
     raw_dir, output_dir = Path(raw_dir), Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    calendar = load_stage_calendar(stage_calendar_path)
+    discovered = discover_raw_files(raw_dir)
+    if end_year is None:
+        end_year = max(discovered, default=start_year - 1)
+    if start_year > end_year:
+        raise ValueError('No raw years in range, or start_year > end_year')
+    # Resolve all requested years before parsing hundreds of megabytes.
+    paths = []
+    for year in range(start_year, end_year + 1):
+        if year not in discovered:
+            raise FileNotFoundError(f'Missing raw year {year} in {raw_dir}')
+        paths.append((year, resolve_raw_file(discovered[year])))
     groups, sources, manifest = defaultdict(list), defaultdict(set), []
     required = {'gameid', 'date', 'year', 'split', 'playoffs', 'patch', 'league',
-                'side', 'position', 'playername', 'champion', 'result', 'firstbaron'}
-    for year in range(start_year, end_year + 1):
-        path = raw_dir / f'{year}_LoL_esports_match_data_from_OraclesElixir.csv'
-        if not path.exists():
-            raise FileNotFoundError(f'Missing raw year {year}: {path}')
+                'side', 'position', 'playername', 'champion', 'teamname', 'result', 'firstbaron'}
+    for year, path in paths:
         info = fingerprint(path)
         info['calendar_year'] = year
         matched = 0
@@ -376,7 +462,7 @@ def preprocess(raw_dir, output_dir, start_year=2015, end_year=2026, events_path=
                 matched += 1
         info['selected_rows'] = matched
         manifest.append(info)
-    timelines = json.loads(Path(events_path).read_text()) if events_path else {}
+    timelines = json.loads(Path(events_path).read_text(encoding='utf-8-sig')) if events_path else {}
     if set(timelines) - set(groups):
         raise ValueError('Timeline contains game IDs absent from selected source files')
     rows, audit, provenance, errors = [], [], [], []
@@ -399,8 +485,12 @@ def preprocess(raw_dir, output_dir, start_year=2015, end_year=2026, events_path=
             meta = participants[0]
             game = dict(game_id=game_id, date=datetime.fromisoformat(meta['date']).isoformat(sep=' '),
                         year=int(meta['year']), split=meta['split'] or 'Regional',
-                        stage=classify_stage(meta), patch=meta['patch'])
+                        stage=classify_stage(meta, calendar), patch=meta['patch'])
             for side in SIDES:
+                team_name = indexed[side, 'team']['teamname'].strip()
+                if not team_name or any(indexed[side, role]['teamname'].strip() != team_name for role in ROLES):
+                    raise ValueError(f'Missing/inconsistent teamname: {side}')
+                game[f'{side.lower()}_team'] = team_name
                 for role, normalized in ROLES.items():
                     player = indexed[side, role]
                     for kind, source_field in [('player', 'playername'), ('champion', 'champion')]:
@@ -410,6 +500,7 @@ def preprocess(raw_dir, output_dir, start_year=2015, end_year=2026, events_path=
             targets, reasons = derive_targets({s: indexed[s, 'team'] for s in SIDES},
                                               patch_tuple(meta['patch']), timelines.get(game_id))
             game.update(targets)
+            validate([game])
             rows.append(game)
             for target in (*TARGETS, *DRAGON_COUNTS):
                 audit.append({'game_id': game_id, 'target': target,
@@ -429,6 +520,7 @@ def preprocess(raw_dir, output_dir, start_year=2015, end_year=2026, events_path=
         'status': 'source_snapshot_not_independently_exhaustive',
         'date_min': rows[0]['date'] if rows else None, 'date_max': rows[-1]['date'] if rows else None,
         'source_files': len(manifest), 'source_game_ids': len(groups),
+        'requested_years': list(range(start_year, end_year + 1)),
         'note': 'Includes OGN 2015 and all LCK-labelled events. Future games and events absent from OE are not fabricated. Year is competition year; calendar year may differ for promotion.',
     }
     report['warnings'] = [
@@ -444,7 +536,8 @@ def preprocess(raw_dir, output_dir, start_year=2015, end_year=2026, events_path=
     for kind in ('player', 'champion'):
         write_json(output_dir / f'{kind}_vocab.json', build_vocab(rows, kind))
     write_json(output_dir / 'raw_manifest.json', {'files': manifest,
-               'events': fingerprint(events_path) if events_path else None})
+               'events': fingerprint(events_path) if events_path else None,
+               'stage_calendar': fingerprint(stage_calendar_path or DEFAULT_STAGE_CALENDAR)})
     write_json(output_dir / 'validation_report.json', report)
     write_summary(output_dir / 'validation_summary.md', report)
     print(json.dumps(report, ensure_ascii=False, indent=2))
