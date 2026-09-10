@@ -1,0 +1,199 @@
+{
+  "total_games": 5863,
+  "games_by_year": {
+    "2015": 394,
+    "2016": 484,
+    "2017": 508,
+    "2018": 509,
+    "2019": 495,
+    "2020": 499,
+    "2021": 488,
+    "2022": 467,
+    "2023": 488,
+    "2024": 482,
+    "2025": 555,
+    "2026": 494
+  },
+  "games_by_stage": {
+    "Cup": 234,
+    "Play-In": 35,
+    "Playoff": 438,
+    "Promotion": 150,
+    "Regional Qualifier": 87,
+    "Regular Season": 4881,
+    "Road to MSI": 38
+  },
+  "unique_players": 365,
+  "unique_champions": 171,
+  "target_distributions": {
+    "winner_side": {
+      "BLUE": 3123,
+      "RED": 2739,
+      "NONE": 0,
+      "N/A": 0,
+      "TIE": 0,
+      "MISSING": 1
+    },
+    "first_dragon_side": {
+      "BLUE": 2550,
+      "RED": 3312,
+      "NONE": 1,
+      "N/A": 0,
+      "TIE": 0,
+      "MISSING": 0
+    },
+    "more_dragons_side": {
+      "BLUE": 2192,
+      "RED": 2352,
+      "NONE": 0,
+      "N/A": 0,
+      "TIE": 637,
+      "MISSING": 682
+    },
+    "first_four_dragon_side": {
+      "BLUE": 924,
+      "RED": 1063,
+      "NONE": 3194,
+      "N/A": 0,
+      "TIE": 0,
+      "MISSING": 682
+    },
+    "dragon_soul_side": {
+      "BLUE": 716,
+      "RED": 855,
+      "NONE": 1842,
+      "N/A": 2406,
+      "TIE": 0,
+      "MISSING": 44
+    },
+    "elder_dragon_side": {
+      "BLUE": 347,
+      "RED": 364,
+      "NONE": 4438,
+      "N/A": 637,
+      "TIE": 0,
+      "MISSING": 77
+    },
+    "first_baron_side": {
+      "BLUE": 2827,
+      "RED": 2648,
+      "NONE": 388,
+      "N/A": 0,
+      "TIE": 0,
+      "MISSING": 0
+    }
+  },
+  "missing_by_column": {
+    "game_id": 0,
+    "date": 0,
+    "year": 0,
+    "split": 0,
+    "stage": 0,
+    "patch": 0,
+    "blue_player_top": 0,
+    "blue_player_jungle": 0,
+    "blue_player_mid": 0,
+    "blue_player_adc": 0,
+    "blue_player_support": 0,
+    "red_player_top": 0,
+    "red_player_jungle": 0,
+    "red_player_mid": 0,
+    "red_player_adc": 0,
+    "red_player_support": 0,
+    "blue_champion_top": 0,
+    "blue_champion_jungle": 0,
+    "blue_champion_mid": 0,
+    "blue_champion_adc": 0,
+    "blue_champion_support": 0,
+    "red_champion_top": 0,
+    "red_champion_jungle": 0,
+    "red_champion_mid": 0,
+    "red_champion_adc": 0,
+    "red_champion_support": 0,
+    "winner_side": 1,
+    "first_dragon_side": 0,
+    "more_dragons_side": 682,
+    "first_four_dragon_side": 682,
+    "dragon_soul_side": 44,
+    "elder_dragon_side": 77,
+    "first_baron_side": 0,
+    "blue_dragon_count": 675,
+    "red_dragon_count": 681
+  },
+  "dragon_count_statistics": {
+    "blue_dragon_count": {
+      "known": 5188,
+      "missing": 675,
+      "zero": 919
+    },
+    "red_dragon_count": {
+      "known": 5182,
+      "missing": 681,
+      "zero": 792
+    }
+  },
+  "column_roles": {
+    "input_columns": [
+      "blue_player_top",
+      "blue_player_jungle",
+      "blue_player_mid",
+      "blue_player_adc",
+      "blue_player_support",
+      "red_player_top",
+      "red_player_jungle",
+      "red_player_mid",
+      "red_player_adc",
+      "red_player_support",
+      "blue_champion_top",
+      "blue_champion_jungle",
+      "blue_champion_mid",
+      "blue_champion_adc",
+      "blue_champion_support",
+      "red_champion_top",
+      "red_champion_jungle",
+      "red_champion_mid",
+      "red_champion_adc",
+      "red_champion_support"
+    ],
+    "target_columns": [
+      "winner_side",
+      "first_dragon_side",
+      "more_dragons_side",
+      "first_four_dragon_side",
+      "dragon_soul_side",
+      "elder_dragon_side",
+      "first_baron_side"
+    ],
+    "analysis_only_columns": [
+      "blue_dragon_count",
+      "red_dragon_count"
+    ],
+    "metadata_columns": [
+      "game_id",
+      "date",
+      "year",
+      "split",
+      "stage",
+      "patch"
+    ]
+  },
+  "duplicate_game_ids": {},
+  "missing_target_cells": 1486,
+  "missing_dragon_count_cells": 1356,
+  "total_missing_cells": 2842,
+  "coverage": {
+    "status": "source_snapshot_not_independently_exhaustive",
+    "date_min": "2015-01-07 08:56:44",
+    "date_max": "2026-09-06 11:11:44",
+    "source_files": 12,
+    "source_game_ids": 5863,
+    "note": "Includes OGN 2015 and all LCK-labelled events. Future games and events absent from OE are not fabricated. Year is competition year; calendar year may differ for promotion."
+  },
+  "warnings": [
+    "Pre-6.9 OE dragon totals are unavailable/zero-filled; first-four target remains missing without events.",
+    "First elder and first-four order cannot be recovered when both teams qualify; missing unless complete timeline supplied.",
+    "Cup, Promotion, Regional Qualifier, Road to MSI and Play-In are retained but excluded from the default split.",
+    "Player vocabulary uses source playername, not verified cross-alias person identity.",
+    "A record without a winner is retained for audit and excluded from default train/test; see target_audit.csv."
+  ]
+}
