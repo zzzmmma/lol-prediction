@@ -1,14 +1,17 @@
 """Python entry point for collection, preprocessing, validation and optional splits."""
 import argparse
 import json
+import sys
 from datetime import date
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if __package__ in (None, ''):
+    sys.path.insert(0, str(ROOT))
+
 from src.preprocess import preprocess, read_games, validate
 from src.splits import create_splits
 from src.collect import collect
-
-ROOT = Path(__file__).resolve().parent
-
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)

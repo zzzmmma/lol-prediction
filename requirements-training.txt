@@ -1,0 +1,3 @@
+# Minimal baseline dependency. Use the official CUDA index on NVIDIA Windows.
+# The existing requirements.txt is a historical full-environment snapshot.
+torch==2.11.0

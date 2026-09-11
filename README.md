@@ -1,6 +1,6 @@
-# LCK 경기 데이터 전처리
+# LCK 경기 데이터 전처리 및 Transformer baseline
 
-Oracle's Elixir 연간 CSV를 읽어 **게임(세트)당 1행**으로 변환한다. 현재 검증 범위는 2015~2026이며, 이후 연도도 CLI와 일정 설정으로 추가할 수 있다. Python 3.10 이상 표준 라이브러리만 사용하며 Transformer, ELO 및 경기력 추가 feature는 구현하지 않는다. 기존 `src/model.py`, `train.py`, `evaluate.py`, `dataset.py`, `utils.py`는 빈 파일이어서 변경하지 않았다.
+Oracle's Elixir 연간 CSV를 읽어 **게임(세트)당 1행**으로 변환한다. 현재 데이터 범위는 2015~2026이며, 이후 연도도 CLI와 일정 설정으로 추가할 수 있다. 데이터 전처리와 EDA는 Python 표준 라이브러리만 사용한다. 학습은 별도 PyTorch Transformer baseline으로 수행하며, 입력은 선수·챔피언 20개로 제한한다. ELO 및 경기력 추가 feature는 포함하지 않는다.
 
 요구사항 대조, 수정된 Baron 정답 4개, 검증 수치와 변경 파일 목록은 [데이터셋 점검 결과](docs/dataset_review.md)를 참조한다.
 
@@ -11,9 +11,9 @@ Oracle's Elixir 연간 CSV를 읽어 **게임(세트)당 1행**으로 변환한�
 ```powershell
 # .venv가 없는 새 환경에서만 생성 (Mac의 .venv를 복사하지 않는다)
 py -3 -m venv .venv
-.\.venv\Scripts\python.exe main.py preprocess --start-year 2015 --end-year 2026
-.\.venv\Scripts\python.exe main.py validate
-.\.venv\Scripts\python.exe main.py split
+.\.venv\Scripts\python.exe src/main.py preprocess --start-year 2015 --end-year 2026
+.\.venv\Scripts\python.exe src/main.py validate
+.\.venv\Scripts\python.exe src/main.py split
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
@@ -21,30 +21,99 @@ macOS:
 
 ```bash
 python3 -m venv .venv  # 새 환경에서만 생성
-.venv/bin/python main.py preprocess --start-year 2015 --end-year 2026
-.venv/bin/python main.py validate
-.venv/bin/python main.py split
+.venv/bin/python src/main.py preprocess --start-year 2015 --end-year 2026
+.venv/bin/python src/main.py validate
+.venv/bin/python src/main.py split
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-데이터 작업에는 `pip install -r requirements.txt`가 필요 없다. 기존 `requirements.txt`의 모델·분석 라이브러리 버전 목록은 이번에 변경하거나 설치하지 않았다. 이후 PyTorch 환경은 각 OS에서 별도로 준비한다. `data/raw/`는 Git에서 제외되므로 새 컴퓨터에는 원본 CSV를 별도로 복사하거나 수집해야 한다.
+전처리/EDA에는 `pip install -r requirements.txt`가 필요 없다. 기존 `requirements.txt`는 과거 환경 목록으로 보존하며, baseline 학습에는 별도 `requirements-training.txt`를 사용한다. 모델 테스트도 PyTorch 설치가 필요하다. `data/raw/`는 Git에서 제외되므로 새 컴퓨터에는 원본 CSV를 별도로 복사하거나 수집해야 한다.
 
 `preprocess`의 기본 시작 연도는 2015이고, `--end-year` 생략 시 원본 폴더의 최대 연도까지 처리한다. 범위 중간의 연간 파일 누락은 오류다. `split`을 별도로 실행하면 **데이터셋에 있는 모든 연도**의 `Regular Season`을 train, `Playoff`를 test로 저장한다. 원본에서 승자가 확정되지 않은 레코드는 split에서 제외한다. 다른 타깃의 결측은 그대로 유지하므로 향후 학습 시 타깃별 마스킹이 필요하다.
 
 `preprocess --strict-targets`는 파일과 검증 보고서를 생성한 후 7개 타깃 중 미확정 값이 있으면 종료 코드 2를 반환한다. `validate --strict-targets`도 결측 target이 있으면 2를 반환한다. 기본 `validate`는 결측 자체를 오류로 보지 않고 집계한다. 분석 count 결측은 별도로 집계한다. 원본 파일 누락·중복 후보·필수 헤더 누락은 입력 단계에서 오류를 낸다. 중복 참가자, 잘못된 패치, 팀명/메타데이터 불일치 등 경기 구조 오류는 `structural_errors.json`에 기록하고 데이터셋 생성을 중단한다. 실패한 실행은 이전에 성공한 데이터셋을 지우지 않으므로 종료 코드를 확인한다.
 
+## 학습 전 읽기 전용 EDA
+
+`src/eda.py`는 기존 `games.csv`, `train.csv`, `test.csv`를 읽어 콘솔과 `reports/eda_report.json`에 분석 결과를 출력한다. 전처리·학습·데이터 수정은 하지 않으며 Python 표준 라이브러리만 사용한다. VS Code에서 파일을 직접 실행해도 기본 데이터와 출력 경로는 프로젝트 루트를 기준으로 찾는다.
+
+```powershell
+.\.venv\Scripts\python.exe src/eda.py
+# 콘솔에서도 선수/챔피언 전체 빈도표 출력 (기본 상위 20개)
+.\.venv\Scripts\python.exe src/eda.py --top 0
+# 사용자 입력 파일 및 보고서 경로
+.\.venv\Scripts\python.exe src/eda.py --games data/processed/games.csv --train data/splits/train.csv --test data/splits/test.csv --output reports/eda_report.json
+```
+
+macOS에서는 `.venv/bin/python src/eda.py`로 실행한다. 프로젝트 루트에서 `python -m src.eda`로도 실행할 수 있다. JSON에는 `--top`과 관계없이 선수·챔피언 전체 목록을 저장한다. 출력 파일은 `.json`이어야 하며 데이터 보존을 위해 프로젝트 `data/` 내부와 입력 파일 경로에는 저장하지 않는다. 직접 지정한 상대 경로 옵션은 현재 작업 디렉터리를 기준으로 해석한다.
+
+- 세 데이터셋 각각의 연도별·stage별·연도×stage별 경기 수와 선수/챔피언별 등장 횟수.
+- 7개 target의 class별 개수·전체 행 대비 비율, MISSING 비율, N/A 비율. 빈 셀과 문자열 `MISSING`은 분석에서 MISSING으로 집계하고, `NONE`과 `N/A`는 구분한다. 비정상 class도 숨기지 않고 집계한다.
+- `games.csv`의 `Regular Season`과 `Playoff` target 분포 비교. 전체 경기 기준과 MISSING·N/A·비정상 class를 제외한 유효 정답 기준을 함께 출력한다. 차이는 **Playoff − Regular의 퍼센트포인트(pp)**다. 기존 split의 승자 미확정 제외 조건 때문에 Regular 행 수와 train 행 수는 다를 수 있다.
+- train/test CSV에서 관측한 이름의 vocabulary 교집합, Jaccard(교집합/합집합), test vocabulary 포함률(교집합/test 고유 이름 수), test에만 등장한 이름의 수·목록·빈도와 test OOV 슬롯 비율. 기존 vocabulary JSON은 변경하지 않는다.
+- 중복 game_id, 열별 결측, 경기 내 동일 token 중복, 기존 validator의 첫 오류, train/test 경기 중복, 전체 데이터에 없는 split ID와 내용이 다른 행을 보고한다. 잘못된 행을 자동으로 삭제하거나 보정하지 않는다.
+
+한 경기는 한 세트이며, 선수/챔피언 등장 횟수는 각각 10개 입력 슬롯에서 센다. 별칭이나 동명이인은 합치지 않는다. JSON 비율은 0~1이고, 분모가 0이면 JSON `null`/콘솔 `--`로 표시한다. 원본 파일 경로와 SHA-256도 보고서에 기록한다.
+
+## PyTorch Transformer 학습 및 평가
+
+현재 Windows `.venv`에는 PyTorch 2.11.0+cu128을 설치하고 RTX 4060 Ti에서 실행을 확인했다. 새 NVIDIA Windows 환경에서는 호환 드라이버가 있는 경우 다음과 같이 설치한다. 다른 OS/GPU는 [PyTorch 공식 설치 안내](https://pytorch.org/get-started/locally/)를 따른다.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-training.txt --index-url https://download.pytorch.org/whl/cu128
+# 기본: 256차원, Encoder 2층, attention head 8개, 10 epoch
+.\.venv\Scripts\python.exe src/train.py
+# epoch와 layer 수를 명시하는 예
+.\.venv\Scripts\python.exe src/train.py --epochs 10 --layers 2 --device auto
+# train 빈도 기반 class weight 사용 (기본값)
+.\.venv\Scripts\python.exe src/train.py --class-weight
+# 동일 binary 모델에서 unweighted 비교 실행
+.\.venv\Scripts\python.exe src/train.py --no-class-weight
+```
+
+기본 입력은 `data/splits/train.csv`, `test.csv`, `player_vocab.json`, `champion_vocab.json`이다. `--train`, `--test`, `--player-vocab`, `--champion-vocab`으로 변경할 수 있다. 모델은 Regular Season으로만 학습하고 마지막 epoch 종료 후 Playoff를 한 번 평가한다. test 결과로 early stopping이나 checkpoint 선택을 하지 않는다.
+
+실행 결과는 새 `runs/transformer_날짜_시각/` 폴더에 저장한다. 직접 지정하려면 `--output-dir runs/새이름`을 사용한다. 데이터와 이전 실험을 보존하기 위해 `data/` 및 비어 있지 않은 출력 폴더는 거부한다. `runs/`는 Git에서 제외되어 있으므로 Mac/Windows 사이에서 checkpoint를 공유하려면 별도로 복사한다.
+
+```powershell
+# 새 binary 학습 로그에 표시된 checkpoint 경로로 재평가
+.\.venv\Scripts\python.exe src/evaluate.py --checkpoint runs/새실험이름/last.pt
+# 전체 테스트 / 학습 테스트 파일 직접 실행
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe tests/test_training.py
+```
+
+`src/train.py`, `src/evaluate.py`는 VS Code에서 파일을 직접 실행해도 프로젝트 루트의 기본 경로를 사용한다. 평가에는 `--checkpoint` 인수가 필요하다. `python -m src.train`/`python -m src.evaluate`도 지원한다. macOS에서는 `.venv/bin/python`을 사용하며, `--device auto`는 CUDA → MPS → CPU 순서로 선택한다. 현재 검증은 Windows CPU/CUDA에서 수행했으며 macOS/MPS 실행은 아직 검증하지 않았다.
+
+각 task에서 빈 셀/`MISSING`/`N/A`를 loss 및 metric 계산에서 제외한다. `first_dragon_side`는 BLUE/RED binary이며, 실제 `NONE`이 입력되면 해당 task에서만 제외한다. 다른 task의 `NONE`과 `TIE`는 정상 class다. Accuracy, Macro F1, class별 precision/recall/F1/support를 콘솔과 JSON/CSV로 출력한다. Macro F1은 **정해진 모든 class의 평균**이며, 표본/예측이 없는 class의 F1도 0으로 포함한다. task 전체에 유효 정답이 없으면 지표는 `null`이다.
+
+Class weight는 유효 **train 정답만** 사용해 `N / (관측 class 수 × class 빈도)`로 계산한다. 관측되지 않은 class는 weight=0이다. 사용 여부·빈도·가중치는 `config.json`과 checkpoint에 저장한다. 평가 지표와 기존 `loss` 로그는 비교를 위해 unweighted로 유지하고, 실제 학습 목적함수는 콘솔 및 `history.jsonl`의 `optimization_loss`로 별도 기록한다. 과거 3-class first-dragon checkpoint는 새 binary 모델과 호환되지 않으며, 과거 Macro F1과도 class 수가 다르다. 가중치의 효과는 새 binary 모델의 on/off 실행으로 비교한다.
+
+설계, loss 정의, 산출물, 최초 10 epoch 결과는 [Transformer baseline 설명](docs/training_baseline.md)에 정리했다.
+
 ## 파일 구조
 
 ```text
-main.py                          # 수집 / 전처리 / 검증 / split CLI
 requirements.txt                 # 기존 환경의 라이브러리 목록
+requirements-training.txt        # baseline용 PyTorch 의존성
 config/stage_calendar.json       # 확인된 승강전/포스트시즌 날짜 경계
 src/
+├── main.py                      # 수집 / 전처리 / 검증 / split CLI
+├── eda.py                       # 읽기 전용 EDA, 콘솔 및 JSON 출력
 ├── collect.py                   # 원본 보존 수집
 ├── preprocess.py                # 타깃 생성, 변환, 감사, vocabulary, 검증
 ├── splits.py                    # stage 및 사용자 조건에 따른 분할
-└── dataset.py / model.py / train.py / evaluate.py / utils.py  # 현재 빈 파일
+├── dataset.py                   # 20개 token 인코딩, task별 결측 마스킹
+├── model.py                     # Transformer Encoder 및 7개 head
+├── train.py                     # 학습, checkpoint, 로그, 최종 test 평가
+├── evaluate.py                  # checkpoint 재평가
+├── metrics.py                   # masked Accuracy / Macro F1 / class별 지표
+└── utils.py                     # device / seed / checkpoint 입출력
 tests/test_preprocessing.py      # 회귀 및 파이프라인 테스트
+tests/test_eda.py                # EDA 분모, overlap, 데이터 보존 테스트
+tests/test_training.py           # 마스킹 gradient, metric, checkpoint, CLI 테스트
+reports/eda_report.json          # EDA 실행 결과
+runs/                           # 학습 산출물 (Git 제외)
 data/
 ├── raw/                         # 기존 연간 CSV 12개, 읽기 전용 취급
 ├── processed/
@@ -109,7 +178,7 @@ red_dragon_count
 
 `INPUTS`는 기존 선수 10명 + 챔피언 10명만 포함한다. `DRAGON_COUNTS`는 분석 전용이고 `TARGETS`는 예측 정답이다. `validation_report.json`과 `split_manifest.json`의 `column_roles`에도 이 구분을 기록한다. CSV 전체에서 메타데이터만 제외해 모델 입력을 만드는 방식은 사용하지 않는다.
 
-`blue_team`, `red_team`은 OE 팀 행의 `teamname`을 보존하고 해당 팀 선수 5명의 팀명과 일치하는지 검증한다. 분석용 메타데이터이므로 입력에는 포함하지 않는다. 입력 token 0~4/5~9는 Blue/Red 선수, 10~14/15~19는 Blue/Red 챔피언이다. 이후 모델은 선수·챔피언별 별도 `nn.Embedding`, embedding 차원 256, 고정 위치 및 side/role 정보를 표현하도록 구현할 예정이다. 현재 단계에서는 embedding과 학습 코드를 구현하지 않는다.
+`blue_team`, `red_team`은 OE 팀 행의 `teamname`을 보존하고 해당 팀 선수 5명의 팀명과 일치하는지 검증한다. 분석용 메타데이터이므로 입력에는 포함하지 않는다. 입력 token 0~4/5~9는 Blue/Red 선수, 10~14/15~19는 Blue/Red 챔피언이다. 모델은 선수·챔피언별 별도 `nn.Embedding`, embedding 차원 256, 고정 위치 및 side/role/type embedding을 사용한다.
 
 선수와 챔피언 슬롯 순서는 TOP → JUNGLE → MID → ADC → SUPPORT이며 OE `jng/bot/sup`를 정규화한다. `patch`는 문자열로 보존하고 비교할 때 정수 쌍을 사용한다. `date`는 원본 시각을 보존하며 원본에 없는 시간대는 부여하지 않는다. `year`는 **원본 대회 연도**다. 가을 승강전의 대회 연도가 실제 경기 날짜보다 다음 해일 수 있다. 달력 연도는 provenance에 보존한다.
 
@@ -181,7 +250,7 @@ CSV를 pandas로 읽을 때는 `pd.read_csv(path, keep_default_na=False, dtype=s
 ```
 
 ```bash
-.venv/bin/python main.py split --config my_split.json --output-dir data/splits/experiment1
+.venv/bin/python src/main.py split --config my_split.json --output-dir data/splits/experiment1
 ```
 
 `years`, `splits`, `stages`, `date_from`, `date_to`를 조합한다. 날짜 경계는 양 끝 포함이다. train/test game_id 중복 및 빈 split은 오류로 처리한다. 기본 split은 시간 순 holdout이 아니므로 과거 playoffs보다 이후 regular 데이터가 train에 들어갈 수 있다.
