@@ -69,7 +69,9 @@ def masked_multitask_loss(logits, labels, class_weights=None):
     losses = []
     for i, task in enumerate(TARGETS):
         valid = labels[:, i] != IGNORE_INDEX
-        weight = None if class_weights is None else class_weights[task].to(logits[task])
+        weight = None if class_weights is None or task == 'winner_side' else class_weights.get(task)
+        if weight is not None:
+            weight = weight.to(logits[task])
         if bool(valid.any()):
             if weight is not None and not bool(weight[labels[valid, i]].sum() > 0):
                 continue  # CrossEntropy's weighted-mean denominator would be zero.

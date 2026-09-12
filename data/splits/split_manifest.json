@@ -1,6 +1,6 @@
 {
   "dataset": {
-    "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\processed\\games.csv",
+    "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/processed/games.csv",
     "bytes": 1541224,
     "sha256": "3d7d7b11b50a316e55898f2c3a95a65554adca1e2ac74294de41b7f78f3a8eab"
   },

@@ -79,7 +79,7 @@ def run_training(args):
         'dataset_summary': {'train': train.summary(), 'test': test.summary()},
         'class_weighting': {
             'enabled': args.class_weight,
-            'formula': 'N / (K_observed * class_count), using valid train labels only; absent classes=0',
+            'formula': '1 / sqrt(class_count), using valid train labels only; absent classes=0; winner_side unweighted',
             'frequencies': {task: [int((train.labels[:, i] == c).sum()) for c in range(len(classes))]
                             for i, (task, classes) in enumerate(TASK_CLASSES.items())},
             'weights': {task: weight.cpu().tolist() for task, weight in class_weights.items()} if class_weights is not None else None,
@@ -107,7 +107,7 @@ def run_training(args):
     try:
         logger.info('Device=%s, parameters=%s, train=%s, test=%s', device, config['parameters'], len(train), len(test))
         logger.info('Output: %s', output)
-        logger.info('Class weighting: %s', 'enabled (train frequencies)' if args.class_weight else 'disabled')
+        logger.info('Class weighting: %s', 'enabled (inverse sqrt train frequencies; winner_side unweighted)' if args.class_weight else 'disabled')
         if class_weights is not None:
             logger.info('Class weights in task_classes order: %s', config['class_weighting']['weights'])
         for task, summary in config['dataset_summary']['train']['targets'].items():
@@ -162,7 +162,7 @@ def main():
     parser.add_argument('--lr', type=float, default=3e-4)
     parser.add_argument('--weight-decay', type=float, default=0.01)
     parser.add_argument('--class-weight', action=argparse.BooleanOptionalAction, default=True,
-                        help='Use train-frequency balanced class weights (default on); --no-class-weight disables')
+                        help='Use inverse-sqrt train-frequency weights except winner_side (default on); --no-class-weight disables')
     parser.add_argument('--grad-clip', type=float, default=1.0)
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--threads', type=int, default=4)

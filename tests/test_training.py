@@ -36,27 +36,36 @@ class TrainingTest(unittest.TestCase):
         labels[:4, 0] = torch.tensor([0, 0, 0, 1])
         labels[:3, 2] = torch.tensor([0, 0, 2])
         weights = compute_class_weights(labels)
-        torch.testing.assert_close(weights['winner_side'], torch.tensor([2 / 3, 2.0]))
-        torch.testing.assert_close(weights['more_dragons_side'], torch.tensor([0.75, 0., 1.5]))
+        self.assertNotIn('winner_side', weights)
+        torch.testing.assert_close(weights['more_dragons_side'], torch.tensor([2 ** -0.5, 0., 1.]))
         self.assertEqual(weights['dragon_soul_side'].sum().item(), 0)
         self.assertTrue(all(bool(torch.isfinite(w).all()) for w in weights.values()))
 
     def test_weighted_cross_entropy_and_off_switch(self):
         labels = torch.full((4, len(TARGETS)), IGNORE_INDEX)
-        labels[:3, 0] = torch.tensor([0, 0, 1])
+        labels[:3, 1] = torch.tensor([0, 0, 1])
         logits = {t: torch.zeros(4, len(c), requires_grad=True) for t, c in TASK_CLASSES.items()}
-        logits['winner_side'] = torch.tensor([[2., 0.], [2., 0.], [2., 0.], [0., 100.]], requires_grad=True)
+        logits['first_dragon_side'] = torch.tensor([[2., 0.], [2., 0.], [2., 0.], [0., 100.]], requires_grad=True)
         weights = compute_class_weights(labels)
         weighted = masked_multitask_loss(logits, labels, weights)
-        expected = torch.nn.CrossEntropyLoss(weight=weights['winner_side'])(logits['winner_side'][:3], labels[:3, 0])
+        expected = torch.nn.CrossEntropyLoss(weight=weights['first_dragon_side'])(logits['first_dragon_side'][:3], labels[:3, 1])
         torch.testing.assert_close(weighted, expected)
         unweighted = masked_multitask_loss(logits, labels, None)
-        torch.testing.assert_close(unweighted, torch.nn.CrossEntropyLoss()(logits['winner_side'][:3], labels[:3, 0]))
+        torch.testing.assert_close(unweighted, torch.nn.CrossEntropyLoss()(logits['first_dragon_side'][:3], labels[:3, 1]))
         self.assertGreater(weighted.item(), unweighted.item())
         weighted.backward()
-        self.assertEqual(logits['winner_side'].grad[3].abs().sum().item(), 0)
+        self.assertEqual(logits['first_dragon_side'].grad[3].abs().sum().item(), 0)
         zero_weights = {t: torch.zeros_like(w) for t, w in weights.items()}
         self.assertIsNone(masked_multitask_loss(logits, labels, zero_weights))
+
+    def test_winner_is_unweighted_even_with_supplied_weights(self):
+        labels = torch.full((3, len(TARGETS)), IGNORE_INDEX)
+        labels[:, 0] = torch.tensor([0, 0, 1])
+        logits = {t: torch.zeros(3, len(c)) for t, c in TASK_CLASSES.items()}
+        logits['winner_side'] = torch.tensor([[2., 0.]] * 3)
+        expected = masked_multitask_loss(logits, labels)
+        actual = masked_multitask_loss(logits, labels, {'winner_side': torch.tensor([1., 100.])})
+        torch.testing.assert_close(actual, expected)
 
     def test_first_dragon_is_binary_and_none_is_excluded(self):
         self.assertEqual(TASK_CLASSES['first_dragon_side'], ('BLUE', 'RED'))
@@ -204,7 +213,7 @@ class TrainingTest(unittest.TestCase):
             config = json.loads((base / 'run/config.json').read_text())
             self.assertTrue(config['class_weighting']['enabled'])
             self.assertEqual(config['class_weighting']['frequencies']['winner_side'], [1, 1])
-            self.assertEqual(config['class_weighting']['weights']['winner_side'], [1., 1.])
+            self.assertNotIn('winner_side', config['class_weighting']['weights'])
             self.assertEqual(config['class_weighting']['weights']['dragon_soul_side'], [0., 0., 0.])
             self.assertIn('optimization_loss', history[0])
             result = subprocess.run([sys.executable, str(ROOT / 'src/evaluate.py'),

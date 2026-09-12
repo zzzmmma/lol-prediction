@@ -1,93 +1,93 @@
 {
   "files": [
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2015_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2015_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 16098660,
       "sha256": "0b7a0a4e75ad388968e15e00e2bfceebd70ae6de34982ab4b8f7f4f55d088d8f",
       "calendar_year": 2015,
       "selected_rows": 4824
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2016_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2016_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 35260255,
       "sha256": "e8f6ec34596ba14b322b37794a6c26dff0f71a4fa0a0309f32052b018c12d984",
       "calendar_year": 2016,
       "selected_rows": 5880
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2017_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2017_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 47260594,
       "sha256": "88ab7e0b99186293a435cb5d8e271df0973968775013ee509c5e0ebe2d981805",
       "calendar_year": 2017,
       "selected_rows": 6120
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2018_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2018_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 57942430,
       "sha256": "477d2c8b7acd4f8b85973e042c6d8f1509f6a7be880437ac1e597aef9770345b",
       "calendar_year": 2018,
       "selected_rows": 6096
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2019_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2019_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 73144845,
       "sha256": "5dec4c1d4dafd8d4c6df334c1478f261ed1167a66b2c1f7dcbb16dde13afdff7",
       "calendar_year": 2019,
       "selected_rows": 5952
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2020_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2020_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 89069354,
       "sha256": "7e2ad1e6c603745aaf7c32aa52b650affe3ca04581674601f97a38a31d0bc3fa",
       "calendar_year": 2020,
       "selected_rows": 5796
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2021_LoL_esports_match_data_from_OraclesElixir (1).csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2021_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 109765213,
       "sha256": "36a1495425b38eab127dd36bcf028bf372d81215f6a320475ff27a25df657adc",
       "calendar_year": 2021,
       "selected_rows": 5856
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2022_LoL_esports_match_data_from_OraclesElixir (1).csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2022_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 97641612,
       "sha256": "febfbf453000b6ada7587f68c1b046ee4a2770ae2be4436f3cbcd03ffb11e393",
       "calendar_year": 2022,
       "selected_rows": 5604
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2023_LoL_esports_match_data_from_OraclesElixir (1).csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2023_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 85898775,
       "sha256": "8cf6c1bbe4a4c75a73d0a38fca826ecea48dd1fb386f515e2a7986797f7c1f3a",
       "calendar_year": 2023,
       "selected_rows": 5856
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2024_LoL_esports_match_data_from_OraclesElixir (1).csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2024_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 79127713,
       "sha256": "93b5ed6036435120d7d97541b947ffceed6c7158508df4e6cb9b0f8a35cb17ac",
       "calendar_year": 2024,
       "selected_rows": 5784
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2025_LoL_esports_match_data_from_OraclesElixir.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2025_LoL_esports_match_data_from_OraclesElixir.csv",
       "bytes": 79169638,
       "sha256": "c9a158b9e0a965a47d31d3674c127a26f75e6c91a324bd1858e4784b1336214a",
       "calendar_year": 2025,
       "selected_rows": 6660
     },
     {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\raw\\2026_LoL_esports_match_data_from_OraclesElixir.csv",
-      "bytes": 68077128,
-      "sha256": "f52d2240767ec3df1caecc87bf7bfb59f4c472a5d6001c98a54c37d2dc8139be",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2026_LoL_esports_match_data_from_OraclesElixir.csv",
+      "bytes": 68309561,
+      "sha256": "7c9fc4ea418f794af7f2c3f5dc756494512ca547740a40eba74ec85bf16b3885",
       "calendar_year": 2026,
       "selected_rows": 5928
     }
   ],
   "events": null,
   "stage_calendar": {
-    "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\config\\stage_calendar.json",
+    "path": "/Users/hanjune/Desktop/projects/lol-prediction/config/stage_calendar.json",
     "bytes": 260,
     "sha256": "695c470ac01584565839f47ddd9184c3361d613aba3be6ae311729270cdccf27"
   }

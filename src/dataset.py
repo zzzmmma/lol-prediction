@@ -42,19 +42,22 @@ def encode_label(value, task):
 
 
 def compute_class_weights(train_labels):
-    """Balanced inverse frequency, fitted only on valid training labels.
+    """Inverse square-root frequency, fitted only on valid training labels.
 
-    Observed class weight = N / (K_observed * count). Absent classes get 0;
+    Observed class weight = 1 / sqrt(count). winner_side is excluded.
+    Absent classes get 0;
     an entirely masked task gets an all-zero vector, without dividing by zero.
     """
     weights = {}
     for i, task in enumerate(TARGETS):
+        if task == 'winner_side':
+            continue
         labels = train_labels[:, i]
         counts = torch.bincount(labels[labels != IGNORE_INDEX], minlength=len(TASK_CLASSES[task])).float()
         observed = counts > 0
         weight = torch.zeros_like(counts)
         if bool(observed.any()):
-            weight[observed] = counts.sum() / (observed.sum() * counts[observed])
+            weight[observed] = counts[observed].rsqrt()
         weights[task] = weight
     return weights
 

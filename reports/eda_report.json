@@ -1,17 +1,17 @@
 {
   "sources": {
     "games": {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\processed\\games.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/processed/games.csv",
       "bytes": 1541224,
       "sha256": "3d7d7b11b50a316e55898f2c3a95a65554adca1e2ac74294de41b7f78f3a8eab"
     },
     "train": {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\train.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/splits/train.csv",
       "bytes": 1290358,
       "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
     },
     "test": {
-      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\test.csv",
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/splits/test.csv",
       "bytes": 111619,
       "sha256": "07458579a0388589eac0a3470a79ab516861eef86b6d2f70129f2eb4f1785dd7"
     }
