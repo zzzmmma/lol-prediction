@@ -2,8 +2,7 @@
 import torch
 from torch.nn import functional as F
 
-from .dataset import IGNORE_INDEX, TASK_CLASSES
-from .preprocess import TARGETS
+from .dataset import IGNORE_INDEX, TASK_CLASSES, TARGETS
 
 
 def classification_metrics(matrix):

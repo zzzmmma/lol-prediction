@@ -15,7 +15,7 @@ if __package__ in (None, ''):
 import torch
 from torch.utils.data import DataLoader
 
-from src.dataset import GameDataset, TASK_CLASSES, compute_class_weights, load_vocab, validate_training_inputs
+from src.dataset import GameDataset, TASK_CLASSES, TASK_LOSS_WEIGHTS, CLASS_WEIGHT_POWERS, compute_class_weights, load_vocab, validate_training_inputs
 from src.evaluate import evaluate, save_evaluation
 from src.metrics import MetricAccumulator, metric_rows, print_metrics
 from src.model import MatchTransformer, masked_multitask_loss
@@ -79,7 +79,8 @@ def run_training(args):
         'dataset_summary': {'train': train.summary(), 'test': test.summary()},
         'class_weighting': {
             'enabled': args.class_weight,
-            'formula': '1 / sqrt(class_count), using valid train labels only; absent classes=0; winner_side unweighted',
+            'formula': 'count ** (-power), valid train labels only; absent classes=0; unlisted tasks unweighted',
+            'powers': CLASS_WEIGHT_POWERS,
             'frequencies': {task: [int((train.labels[:, i] == c).sum()) for c in range(len(classes))]
                             for i, (task, classes) in enumerate(TASK_CLASSES.items())},
             'weights': {task: weight.cpu().tolist() for task, weight in class_weights.items()} if class_weights is not None else None,
@@ -88,7 +89,8 @@ def run_training(args):
                         'device': str(device), 'cuda_runtime': torch.version.cuda,
                         'gpu': torch.cuda.get_device_name(device) if device.type == 'cuda' else None},
         'model_selection': 'Final fixed epoch. Test is evaluated once, never used for early stopping or model selection.',
-        'loss_definition': 'Mean of per-task CrossEntropy means; weighted means divide by sum of target-class weights when enabled. MISSING/N/A and first_dragon NONE are masked.',
+        'task_loss_weights': TASK_LOSS_WEIGHTS,
+        'loss_definition': 'Auxiliary soul loss scaled by 0.5. Mean of per-task CrossEntropy means; weighted means divide by sum of target-class weights when enabled. MISSING/N/A and first_dragon NONE are masked; elder_side is supervised only when Elder occurs.',
         'reported_loss_definition': 'loss remains unweighted for comparison; optimization_loss is the mean of actual batch objectives (weighted when enabled).',
         'metrics_definition': 'Unweighted Accuracy and fixed-class macro F1 ignore MISSING/N/A and first_dragon NONE. Absent class P/R/F1=0; all-masked task=null. Confusion rows=true, columns=predicted.',
         'train_metrics_definition': 'Online epoch metrics before each batch update, with dropout active; not a final-model evaluation.',
@@ -107,7 +109,7 @@ def run_training(args):
     try:
         logger.info('Device=%s, parameters=%s, train=%s, test=%s', device, config['parameters'], len(train), len(test))
         logger.info('Output: %s', output)
-        logger.info('Class weighting: %s', 'enabled (inverse sqrt train frequencies; winner_side unweighted)' if args.class_weight else 'disabled')
+        logger.info('Class weighting: %s', 'enabled (task-specific train frequency weights)' if args.class_weight else 'disabled')
         if class_weights is not None:
             logger.info('Class weights in task_classes order: %s', config['class_weighting']['weights'])
         for task, summary in config['dataset_summary']['train']['targets'].items():
@@ -162,7 +164,7 @@ def main():
     parser.add_argument('--lr', type=float, default=3e-4)
     parser.add_argument('--weight-decay', type=float, default=0.01)
     parser.add_argument('--class-weight', action=argparse.BooleanOptionalAction, default=True,
-                        help='Use inverse-sqrt train-frequency weights except winner_side (default on); --no-class-weight disables')
+                        help='Use task-specific train-frequency weights (default on); --no-class-weight disables')
     parser.add_argument('--grad-clip', type=float, default=1.0)
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--threads', type=int, default=4)

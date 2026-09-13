@@ -6,11 +6,34 @@ from pathlib import Path
 import torch
 from torch.utils.data import Dataset
 
-from .preprocess import INPUTS, TARGETS, TARGET_VALUES, read_games
+from .preprocess import INPUTS, TARGETS as SOURCE_TARGETS, TARGET_VALUES, read_games
 
 IGNORE_INDEX = -100
-TASK_CLASSES = {task: tuple(c for c in TARGET_VALUES[task] if c != 'N/A') for task in TARGETS}
-TASK_CLASSES['first_dragon_side'] = ('BLUE', 'RED')
+TARGETS = tuple(t for source in SOURCE_TARGETS
+                for t in (('elder_occurs', 'elder_side') if source == 'elder_dragon_side' else (source,)))
+TASK_CLASSES = {task: tuple(c for c in TARGET_VALUES[task] if c != 'N/A')
+                for task in TARGETS if task not in ('elder_occurs', 'elder_side')}
+TASK_CLASSES.update(first_dragon_side=('BLUE', 'RED'), elder_occurs=('YES', 'NO'), elder_side=('BLUE', 'RED'))
+TASK_CLASSES = {task: TASK_CLASSES[task] for task in TARGETS}
+CLASS_WEIGHT_POWERS = {'first_dragon_side': 0.25, 'first_four_dragon_side': 0.5,
+                       'dragon_soul_side': 0.5, 'elder_occurs': 1.0, 'elder_side': 1.0}
+AUXILIARY_TASKS = ('dragon_soul_side',)
+TASK_LOSS_WEIGHTS = {task: 0.5 if task in AUXILIARY_TASKS else 1.0 for task in TARGETS}
+
+
+def target_value(row, task):
+    if task not in ('elder_occurs', 'elder_side'):
+        return row[task]
+    value = (row['elder_dragon_side'] or '').strip()
+    if value in ('', 'MISSING', 'N/A'):
+        return value
+    if value not in ('BLUE', 'RED', 'NONE'):
+        raise ValueError(f'Invalid elder_dragon_side class: {value!r}')
+    if task == 'elder_occurs':
+        return 'NO' if value == 'NONE' else 'YES'
+    return 'N/A' if value == 'NONE' else value
+
+
 PLAYER_COLUMNS = INPUTS[:10]
 CHAMPION_COLUMNS = INPUTS[10:]
 
@@ -42,22 +65,20 @@ def encode_label(value, task):
 
 
 def compute_class_weights(train_labels):
-    """Inverse square-root frequency, fitted only on valid training labels.
+    """Task-specific inverse-frequency powers fitted on valid train labels only.
 
-    Observed class weight = 1 / sqrt(count). winner_side is excluded.
-    Absent classes get 0;
-    an entirely masked task gets an all-zero vector, without dividing by zero.
+    Unobserved classes receive zero; elder_side labels exist only for actual Elders.
     """
     weights = {}
     for i, task in enumerate(TARGETS):
-        if task == 'winner_side':
+        if task not in CLASS_WEIGHT_POWERS:
             continue
         labels = train_labels[:, i]
         counts = torch.bincount(labels[labels != IGNORE_INDEX], minlength=len(TASK_CLASSES[task])).float()
         observed = counts > 0
         weight = torch.zeros_like(counts)
         if bool(observed.any()):
-            weight[observed] = counts[observed].rsqrt()
+            weight[observed] = counts[observed].pow(-CLASS_WEIGHT_POWERS[task])
         weights[task] = weight
     return weights
 
@@ -70,7 +91,7 @@ class GameDataset(Dataset):
         self.rows = read_games(path)
         if not self.rows:
             raise ValueError(f'Empty dataset: {path}')
-        required = {'game_id', 'stage', *INPUTS, *TARGETS}
+        required = {'game_id', 'stage', *INPUTS, *SOURCE_TARGETS}
         for row in self.rows:
             if required - row.keys():
                 raise ValueError(f'{path}: missing columns {sorted(required - row.keys())}')
@@ -85,7 +106,7 @@ class GameDataset(Dataset):
                                         for r in self.rows], dtype=torch.long)
         self.champion_ids = torch.tensor([[champion_vocab.get(r[c], 0) for c in CHAMPION_COLUMNS]
                                           for r in self.rows], dtype=torch.long)
-        self.labels = torch.tensor([[encode_label(r[t], t) for t in TARGETS] for r in self.rows], dtype=torch.long)
+        self.labels = torch.tensor([[encode_label(target_value(r, t), t) for t in TARGETS] for r in self.rows], dtype=torch.long)
 
     def __len__(self):
         return len(self.rows)
@@ -100,12 +121,12 @@ class GameDataset(Dataset):
                 'champion_oov_slots': int((self.champion_ids == 0).sum()),
                 'targets': {task: {
                     'valid': int((self.labels[:, i] != IGNORE_INDEX).sum()),
-                    'missing': sum((r[task] or '').strip() in ('', 'MISSING') for r in self.rows),
-                    'not_applicable': sum((r[task] or '').strip() == 'N/A' for r in self.rows),
-                    'excluded_nonbinary': sum(task == 'first_dragon_side' and (r[task] or '').strip() == 'NONE'
+                    'missing': sum((target_value(r, task) or '').strip() in ('', 'MISSING') for r in self.rows),
+                    'not_applicable': sum((target_value(r, task) or '').strip() == 'N/A' for r in self.rows),
+                    'excluded_nonbinary': sum(task == 'first_dragon_side' and (target_value(r, task) or '').strip() == 'NONE'
                                                for r in self.rows),
-                    'classes': dict(Counter((r[task] or '').strip() for r in self.rows
-                                             if encode_label(r[task], task) != IGNORE_INDEX)),
+                    'classes': dict(Counter((target_value(r, task) or '').strip() for r in self.rows
+                                             if encode_label(target_value(r, task), task) != IGNORE_INDEX)),
                 } for i, task in enumerate(TARGETS)}}
 
 

@@ -11,18 +11,18 @@ if __name__ == '__main__' and __package__ in (None, ''):
 
 import torch
 
-from src.dataset import (GameDataset, IGNORE_INDEX, TASK_CLASSES, compute_class_weights,
+from src.dataset import (GameDataset, IGNORE_INDEX, TASK_CLASSES, TARGETS, target_value, compute_class_weights,
                          encode_label, validate_training_inputs, validate_vocab)
 from src.metrics import MetricAccumulator, classification_metrics
 from src.model import MatchTransformer, masked_multitask_loss
-from src.preprocess import INPUTS, TARGETS, build_vocab, write_csv, write_json
+from src.preprocess import INPUTS, TARGETS as SOURCE_TARGETS, build_vocab, write_csv, write_json
 from src.utils import ROOT, load_checkpoint, save_checkpoint
 
 
 def row(game_id, stage='Regular Season'):
     result = {'game_id': game_id, 'stage': stage}
     result.update({c: c for c in INPUTS})
-    result.update({t: 'BLUE' for t in TARGETS})
+    result.update({t: 'BLUE' for t in SOURCE_TARGETS})
     return result
 
 
@@ -34,12 +34,26 @@ class TrainingTest(unittest.TestCase):
     def test_balanced_weights_exclude_masked_and_absent_classes(self):
         labels = torch.full((6, len(TARGETS)), IGNORE_INDEX)
         labels[:4, 0] = torch.tensor([0, 0, 0, 1])
-        labels[:3, 2] = torch.tensor([0, 0, 2])
+        labels[:3, TARGETS.index('first_four_dragon_side')] = torch.tensor([0, 0, 2])
         weights = compute_class_weights(labels)
         self.assertNotIn('winner_side', weights)
-        torch.testing.assert_close(weights['more_dragons_side'], torch.tensor([2 ** -0.5, 0., 1.]))
+        torch.testing.assert_close(weights['first_four_dragon_side'], torch.tensor([2 ** -0.5, 0., 1.]))
         self.assertEqual(weights['dragon_soul_side'].sum().item(), 0)
         self.assertTrue(all(bool(torch.isfinite(w).all()) for w in weights.values()))
+
+    def test_elder_conditional_labels_and_train_weights(self):
+        values = ['BLUE', 'BLUE', 'RED', 'NONE', 'N/A', 'MISSING', '']
+        labels = torch.full((len(values), len(TARGETS)), IGNORE_INDEX)
+        for i, value in enumerate(values):
+            for task in ('elder_occurs', 'elder_side'):
+                labels[i, TARGETS.index(task)] = encode_label(target_value({'elder_dragon_side': value}, task), task)
+        self.assertEqual(labels[:, TARGETS.index('elder_occurs')].tolist(), [0, 0, 0, 1, -100, -100, -100])
+        self.assertEqual(labels[:, TARGETS.index('elder_side')].tolist(), [0, 0, 1, -100, -100, -100, -100])
+        weights = compute_class_weights(labels)
+        torch.testing.assert_close(weights['elder_occurs'], torch.tensor([1 / 3, 1.]))
+        torch.testing.assert_close(weights['elder_side'], torch.tensor([0.5, 1.]))
+        for task in ('winner_side', 'more_dragons_side', 'first_baron_side'):
+            self.assertNotIn(task, weights)
 
     def test_weighted_cross_entropy_and_off_switch(self):
         labels = torch.full((4, len(TARGETS)), IGNORE_INDEX)
@@ -99,16 +113,17 @@ class TrainingTest(unittest.TestCase):
         self.assertEqual(data.player_ids[0].tolist(), [player.get(r[c], 0) for c in INPUTS[:10]])
         self.assertEqual(data.champion_ids[0].tolist(), [champion[r[c]] for c in INPUTS[10:]])
         self.assertEqual(data.player_ids[0, 9], 0)
-        for task in ('dragon_soul_side', 'elder_dragon_side', 'first_baron_side'):
+        for task in ('dragon_soul_side', 'elder_occurs', 'elder_side', 'first_baron_side'):
             self.assertEqual(data.labels[0, TARGETS.index(task)], IGNORE_INDEX)
-        self.assertEqual(encode_label('NONE', 'elder_dragon_side'), 2)
+        self.assertEqual(target_value({'elder_dragon_side': 'NONE'}, 'elder_occurs'), 'NO')
+        self.assertEqual(encode_label(target_value({'elder_dragon_side': 'NONE'}, 'elder_side'), 'elder_side'), IGNORE_INDEX)
         self.assertEqual(encode_label('TIE', 'more_dragons_side'), 2)
         with self.assertRaises(ValueError):
             encode_label('TIE', 'winner_side')
 
     def test_masked_rows_have_zero_gradient_and_all_masked_batch_is_skipped(self):
         logits = {t: torch.randn(3, len(c), requires_grad=True) for t, c in TASK_CLASSES.items()}
-        labels = torch.full((3, 7), IGNORE_INDEX)
+        labels = torch.full((3, len(TARGETS)), IGNORE_INDEX)
         self.assertIsNone(masked_multitask_loss(logits, labels))
         labels[0, 0], labels[1, 1] = 0, 1
         loss = masked_multitask_loss(logits, labels)
@@ -127,7 +142,7 @@ class TrainingTest(unittest.TestCase):
         self.assertEqual(result['per_class'][2]['f1'], 0)
         self.assertIsNone(classification_metrics([[0, 0], [0, 0]])['macro_f1'])
         logits = {t: torch.tensor([[10.] + [0.] * (len(c) - 1)] * 2) for t, c in TASK_CLASSES.items()}
-        labels = torch.full((2, 7), IGNORE_INDEX)
+        labels = torch.full((2, len(TARGETS)), IGNORE_INDEX)
         labels[0, 0] = 0
         metrics = MetricAccumulator()
         metrics.update(logits, labels)
@@ -150,7 +165,7 @@ class TrainingTest(unittest.TestCase):
         logits = model(ids, ids)
         self.assertEqual({t: tuple(v.shape) for t, v in logits.items()},
                          {t: (1, len(c)) for t, c in TASK_CLASSES.items()})
-        masked_multitask_loss(logits, torch.zeros((1, 7), dtype=torch.long)).backward()
+        masked_multitask_loss(logits, torch.zeros((1, len(TARGETS)), dtype=torch.long)).backward()
         self.assertGreater(model.player_embedding.weight.grad.abs().sum().item(), 0)
         self.assertGreater(model.champion_embedding.weight.grad.abs().sum().item(), 0)
         optimizer.step()

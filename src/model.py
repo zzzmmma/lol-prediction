@@ -1,10 +1,9 @@
-"""A small 20-token Transformer with seven independent classification heads."""
+"""A small 20-token Transformer with eight classification heads, including an auxiliary soul head."""
 import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .dataset import IGNORE_INDEX, TASK_CLASSES
-from .preprocess import TARGETS
+from .dataset import IGNORE_INDEX, TASK_CLASSES, TARGETS, CLASS_WEIGHT_POWERS, TASK_LOSS_WEIGHTS
 
 
 class MatchTransformer(nn.Module):
@@ -65,15 +64,15 @@ class MatchTransformer(nn.Module):
 
 
 def masked_multitask_loss(logits, labels, class_weights=None):
-    """Mean of per-task (optionally weighted) means; skip unsupervised tasks."""
+    """Mean of per-task means with auxiliary scaling; skip unsupervised tasks."""
     losses = []
     for i, task in enumerate(TARGETS):
         valid = labels[:, i] != IGNORE_INDEX
-        weight = None if class_weights is None or task == 'winner_side' else class_weights.get(task)
+        weight = None if class_weights is None or task not in CLASS_WEIGHT_POWERS else class_weights.get(task)
         if weight is not None:
             weight = weight.to(logits[task])
         if bool(valid.any()):
             if weight is not None and not bool(weight[labels[valid, i]].sum() > 0):
                 continue  # CrossEntropy's weighted-mean denominator would be zero.
-            losses.append(F.cross_entropy(logits[task][valid], labels[valid, i], weight=weight))
+            losses.append(TASK_LOSS_WEIGHTS[task] * F.cross_entropy(logits[task][valid], labels[valid, i], weight=weight))
     return torch.stack(losses).mean() if losses else None
