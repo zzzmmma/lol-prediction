@@ -157,7 +157,7 @@ def main():
     parser.add_argument('--output-dir', type=Path)
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--batch-size', type=int, default=64)
-    parser.add_argument('--layers', '--num_layers', '--num-layers', type=int, choices=(2, 3, 4), default=4)
+    parser.add_argument('--layers', '--num_layers', '--num-layers', type=int, choices=(2, 3, 4, 6), default=4)
     parser.add_argument('--heads', type=int, default=8)
     parser.add_argument('--ff-dim', '--dim_feedforward', '--dim-feedforward', type=int, default=512)
     parser.add_argument('--dropout', type=float, default=0.1)

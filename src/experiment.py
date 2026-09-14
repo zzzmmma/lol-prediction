@@ -1,4 +1,4 @@
-"""Run three seeds through the shared training CLI and summarize final test metrics."""
+"""Run five seeds through the shared training CLI and summarize final test metrics."""
 import json
 import statistics
 import subprocess
@@ -9,7 +9,7 @@ from src.dataset import TARGETS
 from src.utils import ROOT, prepare_output_dir
 
 
-SEEDS = (42, 43, 44)
+SEEDS = (137, 482, 911, 2027, 7643)
 
 
 def run_experiment(num_layers):
@@ -28,7 +28,7 @@ def run_experiment(num_layers):
             raise RuntimeError(f'Training failed for seed {seed}; see {console_log}')
         reports.append(json.loads((run_dir / 'test_metrics.json').read_text(encoding='utf-8')))
 
-    # Sample standard deviation across all three seeds (ddof=1); scores are 0..1.
+    # Sample standard deviation across all five seeds (ddof=1); scores are 0..1.
     print('task | Accuracy mean ± std (ddof=1) | Macro F1 mean ± std (ddof=1)')
     for task in TARGETS:
         summaries = []

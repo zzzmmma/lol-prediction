@@ -1,4 +1,4 @@
-"""Train the 4-layer baseline with seeds 137, 482, 911, 2027, 7643 and summarize test scores."""
+"""Train the 6-layer baseline with seeds 137, 482, 911, 2027, 7643 and summarize test scores."""
 import sys
 from pathlib import Path
 
@@ -9,4 +9,4 @@ from src.experiment import run_experiment
 
 
 if __name__ == '__main__':
-    run_experiment(4)
+    run_experiment(6)

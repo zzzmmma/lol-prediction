@@ -1,4 +1,4 @@
-"""Train the 2-layer baseline with seeds 42, 43, 44 and summarize test scores."""
+"""Train the 2-layer baseline with seeds 137, 482, 911, 2027, 7643 and summarize test scores."""
 import sys
 from pathlib import Path
 

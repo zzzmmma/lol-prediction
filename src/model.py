@@ -10,8 +10,8 @@ class MatchTransformer(nn.Module):
     def __init__(self, player_vocab_size, champion_vocab_size, embedding_dim=256,
                  num_layers=4, num_heads=8, feedforward_dim=512, dropout=0.1):
         super().__init__()
-        if embedding_dim != 256 or num_layers not in (2, 3, 4):
-            raise ValueError('Baseline requires embedding_dim=256 and 2, 3 or 4 layers')
+        if embedding_dim != 256 or num_layers not in (2, 3, 4, 6):
+            raise ValueError('Baseline requires embedding_dim=256 and 2, 3, 4 or 6 layers')
         if num_heads <= 0 or embedding_dim % num_heads or feedforward_dim <= 0 or not 0 <= dropout < 1:
             raise ValueError('Invalid attention/feedforward/dropout configuration')
         self.config = dict(player_vocab_size=player_vocab_size, champion_vocab_size=champion_vocab_size,
