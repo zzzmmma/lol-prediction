@@ -1,8 +1,8 @@
 {
   "dataset": {
     "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/processed/games.csv",
-    "bytes": 1541224,
-    "sha256": "3d7d7b11b50a316e55898f2c3a95a65554adca1e2ac74294de41b7f78f3a8eab"
+    "bytes": 1543300,
+    "sha256": "6e03eace360182d02d7165df0e70edbc6316e5d0114f46e6db53e2391147a648"
   },
   "train_filter": {
     "stages": [
@@ -15,7 +15,7 @@
     ]
   },
   "train_games": 4880,
-  "test_games": 438,
+  "test_games": 446,
   "excluded_games": 545,
   "unresolved_winner_games": 1,
   "overlap_games": 0,

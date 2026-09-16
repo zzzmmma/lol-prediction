@@ -79,10 +79,10 @@
     },
     {
       "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/raw/2026_LoL_esports_match_data_from_OraclesElixir.csv",
-      "bytes": 68309561,
-      "sha256": "7c9fc4ea418f794af7f2c3f5dc756494512ca547740a40eba74ec85bf16b3885",
+      "bytes": 70374309,
+      "sha256": "b8766e05d172701e09ff4381352a4af1f69f429cb7dc890caae83fabdef575ae",
       "calendar_year": 2026,
-      "selected_rows": 5928
+      "selected_rows": 6024
     }
   ],
   "events": null,

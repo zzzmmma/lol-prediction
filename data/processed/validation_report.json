@@ -1,5 +1,5 @@
 {
-  "total_games": 5863,
+  "total_games": 5871,
   "games_by_year": {
     "2015": 394,
     "2016": 484,
@@ -12,12 +12,12 @@
     "2023": 488,
     "2024": 482,
     "2025": 555,
-    "2026": 494
+    "2026": 502
   },
   "games_by_stage": {
     "Cup": 234,
     "Play-In": 35,
-    "Playoff": 438,
+    "Playoff": 446,
     "Promotion": 150,
     "Regional Qualifier": 87,
     "Regular Season": 4881,
@@ -27,56 +27,56 @@
   "unique_champions": 171,
   "target_distributions": {
     "winner_side": {
-      "BLUE": 3123,
-      "RED": 2739,
+      "BLUE": 3125,
+      "RED": 2745,
       "NONE": 0,
       "N/A": 0,
       "TIE": 0,
       "MISSING": 1
     },
     "first_dragon_side": {
-      "BLUE": 2550,
-      "RED": 3312,
+      "BLUE": 2552,
+      "RED": 3318,
       "NONE": 1,
       "N/A": 0,
       "TIE": 0,
       "MISSING": 0
     },
     "more_dragons_side": {
-      "BLUE": 2192,
-      "RED": 2352,
+      "BLUE": 2193,
+      "RED": 2356,
       "NONE": 0,
       "N/A": 0,
-      "TIE": 637,
+      "TIE": 640,
       "MISSING": 682
     },
     "first_four_dragon_side": {
-      "BLUE": 924,
-      "RED": 1063,
-      "NONE": 3194,
+      "BLUE": 925,
+      "RED": 1065,
+      "NONE": 3199,
       "N/A": 0,
       "TIE": 0,
       "MISSING": 682
     },
     "dragon_soul_side": {
-      "BLUE": 716,
-      "RED": 855,
-      "NONE": 1842,
+      "BLUE": 717,
+      "RED": 857,
+      "NONE": 1847,
       "N/A": 2406,
       "TIE": 0,
       "MISSING": 44
     },
     "elder_dragon_side": {
       "BLUE": 347,
-      "RED": 364,
-      "NONE": 4438,
+      "RED": 365,
+      "NONE": 4445,
       "N/A": 637,
       "TIE": 0,
       "MISSING": 77
     },
     "first_baron_side": {
-      "BLUE": 2827,
-      "RED": 2648,
+      "BLUE": 2830,
+      "RED": 2653,
       "NONE": 384,
       "N/A": 0,
       "TIE": 0,
@@ -124,12 +124,12 @@
   },
   "dragon_count_statistics": {
     "blue_dragon_count": {
-      "known": 5188,
+      "known": 5196,
       "missing": 675,
-      "zero": 919
+      "zero": 921
     },
     "red_dragon_count": {
-      "known": 5182,
+      "known": 5190,
       "missing": 681,
       "zero": 792
     }
@@ -188,9 +188,9 @@
   "coverage": {
     "status": "source_snapshot_not_independently_exhaustive",
     "date_min": "2015-01-07 08:56:44",
-    "date_max": "2026-09-06 11:11:44",
+    "date_max": "2026-09-13 08:19:05",
     "source_files": 12,
-    "source_game_ids": 5863,
+    "source_game_ids": 5871,
     "requested_years": [
       2015,
       2016,

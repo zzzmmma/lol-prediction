@@ -12,15 +12,18 @@ from src.utils import ROOT, prepare_output_dir
 SEEDS = (137, 482, 911, 2027, 7643)
 
 
-def run_experiment(num_layers):
+def run_experiment(num_layers, dim_feedforward=512):
+    prefix = f'layers_{num_layers}'
+    if dim_feedforward != 512:
+        prefix += f'_ffn{dim_feedforward}'
     output = prepare_output_dir(
-        ROOT / 'runs' / datetime.now().strftime(f'layers_{num_layers}_%Y%m%d_%H%M%S_%f'))
+        ROOT / 'runs' / datetime.now().strftime(f'{prefix}_%Y%m%d_%H%M%S_%f'))
     reports = []
     for seed in SEEDS:
         run_dir = output / f'seed_{seed}'
         console_log = output / f'seed_{seed}_console.log'
         command = [sys.executable, '-m', 'src.train', '--num-layers', str(num_layers),
-                   '--dim-feedforward', '512', '--seed', str(seed),
+                   '--dim-feedforward', str(dim_feedforward), '--seed', str(seed),
                    '--output-dir', str(run_dir)]
         with console_log.open('w', encoding='utf-8') as stream:
             result = subprocess.run(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT)
