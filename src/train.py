@@ -65,6 +65,7 @@ def run_training(args):
     class_weights = ({task: weight.to(device) for task, weight in compute_class_weights(train.labels).items()}
                      if args.class_weight else None)
     model = MatchTransformer(len(player_vocab), len(champion_vocab), num_layers=args.layers,
+                             embedding_dim=getattr(args, 'embedding_dim', 256),
                              num_heads=args.heads, feedforward_dim=args.ff_dim, dropout=args.dropout).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     generator = torch.Generator().manual_seed(args.seed)
@@ -140,6 +141,21 @@ def run_training(args):
             'device': str(device), 'metrics_definition': config['metrics_definition']})
         logger.info('\nFinal Playoff evaluation:')
         print_metrics(report, logger.info)
+        if getattr(args, 'evaluate_training', False):
+            training_loader = DataLoader(train, batch_size=args.batch_size, shuffle=False, num_workers=0)
+            training_report = evaluate(model, training_loader, device)
+            write_json(output / 'training_metrics.json', {
+                'metadata': {
+                    'epoch': args.epochs, 'checkpoint': fingerprint(output / 'last.pt'),
+                    'dataset': config['sources']['train'],
+                    'dataset_summary': config['dataset_summary']['train'],
+                    'device': str(device), 'metrics_definition': config['metrics_definition'],
+                    'evaluation_mode': 'Final model in eval mode over the complete training dataset',
+                }, **training_report})
+            logger.info('\nFinal training evaluation (model.eval()):')
+            print_metrics(training_report, lambda message: logger.info(
+                message.replace('Accuracy=', 'Training Accuracy=').replace('Macro F1=', 'Training Macro F1=')),
+                per_class=False)
         logger.info('Checkpoint: %s', output / 'last.pt')
     finally:
         for handler in handlers:
@@ -155,10 +171,13 @@ def main():
     parser.add_argument('--player-vocab', type=Path, default=ROOT / 'data/splits/player_vocab.json')
     parser.add_argument('--champion-vocab', type=Path, default=ROOT / 'data/splits/champion_vocab.json')
     parser.add_argument('--output-dir', type=Path)
+    parser.add_argument('--evaluate-training', action='store_true',
+                        help='Evaluate the complete training dataset after final Playoff evaluation')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--batch-size', type=int, default=64)
     parser.add_argument('--layers', '--num_layers', '--num-layers', type=int, choices=(2, 3, 4, 6), default=4)
     parser.add_argument('--heads', type=int, default=8)
+    parser.add_argument('--embedding-dim', type=int, choices=(128, 256), default=256)
     parser.add_argument('--ff-dim', '--dim_feedforward', '--dim-feedforward', type=int, default=512)
     parser.add_argument('--dropout', type=float, default=0.1)
     parser.add_argument('--lr', type=float, default=3e-4)

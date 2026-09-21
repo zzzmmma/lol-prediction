@@ -1,4 +1,4 @@
-"""Train the 6-layer baseline with five seeds and summarize training and test scores."""
+"""Train the 6-layer, 128-dimensional model with five seeds and training/test summaries."""
 import sys
 from pathlib import Path
 
@@ -9,4 +9,4 @@ from src.experiment import run_experiment
 
 
 if __name__ == '__main__':
-    run_experiment(6, evaluate_training=True)
+    run_experiment(6, dim_feedforward=512, evaluate_training=True, embedding_dim=128)
