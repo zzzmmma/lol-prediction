@@ -6,6 +6,7 @@ import torch
 
 from .dataset import TASK_CLASSES, validate_vocab
 from .model import MatchTransformer
+from .model_emb16 import MatchTransformerEmb16
 from .preprocess import INPUTS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,7 +54,8 @@ def load_checkpoint(path, device):
     config = checkpoint['model_config']
     if config['player_vocab_size'] != len(player) or config['champion_vocab_size'] != len(champion):
         raise ValueError('Checkpoint vocabulary size mismatch')
-    model = MatchTransformer(**config)
+    model_class = MatchTransformerEmb16 if config.get('token_embedding_dim') == 16 else MatchTransformer
+    model = model_class(**config)
     model.load_state_dict(checkpoint['model_state_dict'])
     return model.to(device), checkpoint
 

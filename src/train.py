@@ -19,6 +19,7 @@ from src.dataset import GameDataset, TASK_CLASSES, TASK_LOSS_WEIGHTS, CLASS_WEIG
 from src.evaluate import evaluate, save_evaluation
 from src.metrics import MetricAccumulator, metric_rows, print_metrics
 from src.model import MatchTransformer, masked_multitask_loss
+from src.model_emb16 import MatchTransformerEmb16
 from src.preprocess import INPUTS, fingerprint, write_csv, write_json
 from src.utils import ROOT, prepare_output_dir, save_checkpoint, seed_everything, select_device
 
@@ -64,7 +65,8 @@ def run_training(args):
     validate_training_inputs(train, test)
     class_weights = ({task: weight.to(device) for task, weight in compute_class_weights(train.labels).items()}
                      if args.class_weight else None)
-    model = MatchTransformer(len(player_vocab), len(champion_vocab), num_layers=args.layers,
+    model_class = MatchTransformerEmb16 if getattr(args, 'token_embedding_dim', None) == 16 else MatchTransformer
+    model = model_class(len(player_vocab), len(champion_vocab), num_layers=args.layers,
                              embedding_dim=getattr(args, 'embedding_dim', 256),
                              num_heads=args.heads, feedforward_dim=args.ff_dim, dropout=args.dropout).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
@@ -175,9 +177,11 @@ def main():
                         help='Evaluate the complete training dataset after final Playoff evaluation')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--batch-size', type=int, default=64)
-    parser.add_argument('--layers', '--num_layers', '--num-layers', type=int, choices=(2, 3, 4, 6), default=4)
+    parser.add_argument('--layers', '--num_layers', '--num-layers', type=int, choices=(2, 3, 4, 6, 8, 10), default=4)
     parser.add_argument('--heads', type=int, default=8)
     parser.add_argument('--embedding-dim', type=int, choices=(128, 256), default=256)
+    parser.add_argument('--token-embedding-dim', type=int, choices=(16,),
+                        help='Use separate 16D player/champion embeddings projected to d_model=256')
     parser.add_argument('--ff-dim', '--dim_feedforward', '--dim-feedforward', type=int, default=512)
     parser.add_argument('--dropout', type=float, default=0.1)
     parser.add_argument('--lr', type=float, default=3e-4)

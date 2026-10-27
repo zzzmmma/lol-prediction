@@ -13,8 +13,11 @@ from src.utils import ROOT, prepare_output_dir
 SEEDS = (137, 482, 911, 2027, 7643)
 
 
-def run_experiment(num_layers, dim_feedforward=512, evaluate_training=False, embedding_dim=256):
+def run_experiment(num_layers, dim_feedforward=512, evaluate_training=False, embedding_dim=256,
+                   token_embedding_dim=None):
     prefix = f'layers_{num_layers}'
+    if token_embedding_dim is not None:
+        prefix += f'_emb{token_embedding_dim}'
     if embedding_dim != 256:
         prefix += f'_d{embedding_dim}'
     if dim_feedforward != 512:
@@ -31,6 +34,8 @@ def run_experiment(num_layers, dim_feedforward=512, evaluate_training=False, emb
                    '--output-dir', str(run_dir)]
         if embedding_dim != 256:
             command.extend(['--embedding-dim', str(embedding_dim)])
+        if token_embedding_dim is not None:
+            command.extend(['--token-embedding-dim', str(token_embedding_dim)])
         if evaluate_training:
             command.append('--evaluate-training')
         with console_log.open('w', encoding='utf-8') as stream:
