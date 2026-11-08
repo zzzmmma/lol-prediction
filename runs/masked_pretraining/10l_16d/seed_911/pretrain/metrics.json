@@ -1,0 +1,25 @@
+{
+  "best_epoch": 54,
+  "last_epoch": 69,
+  "checkpoint": {
+    "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_911\\pretrain\\best.pt",
+    "bytes": 64315409,
+    "sha256": "3aba18e0f2dca2e36b800685104f5928ea3c9d91de41b17573bb90c6d637a77e"
+  },
+  "training": {
+    "masked_champion": {
+      "loss": 2.1568884321900663,
+      "top1_accuracy": 0.3463114754098361,
+      "top5_accuracy": 0.7626793032786885,
+      "valid_samples": 7808
+    }
+  },
+  "validation": {
+    "masked_champion": {
+      "loss": 2.5868189334869385,
+      "top1_accuracy": 0.2459016393442623,
+      "top5_accuracy": 0.6639344262295082,
+      "valid_samples": 1952
+    }
+  }
+}

@@ -1,0 +1,365 @@
+{
+  "arguments": {
+    "train": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\train.csv",
+    "test": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\test.csv",
+    "player_vocab": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\player_vocab.json",
+    "champion_vocab": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\champion_vocab.json",
+    "output_dir": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\smoke_weighted_20260912",
+    "epochs": 1,
+    "batch_size": 64,
+    "layers": 2,
+    "heads": 8,
+    "ff_dim": 512,
+    "dropout": 0.1,
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "class_weight": true,
+    "grad_clip": 1.0,
+    "seed": 42,
+    "threads": 4,
+    "device": "auto"
+  },
+  "model": {
+    "player_vocab_size": 336,
+    "champion_vocab_size": 172,
+    "embedding_dim": 256,
+    "num_layers": 2,
+    "num_heads": 8,
+    "feedforward_dim": 512,
+    "dropout": 0.1
+  },
+  "parameters": 1197587,
+  "input_columns": [
+    "blue_player_top",
+    "blue_player_jungle",
+    "blue_player_mid",
+    "blue_player_adc",
+    "blue_player_support",
+    "red_player_top",
+    "red_player_jungle",
+    "red_player_mid",
+    "red_player_adc",
+    "red_player_support",
+    "blue_champion_top",
+    "blue_champion_jungle",
+    "blue_champion_mid",
+    "blue_champion_adc",
+    "blue_champion_support",
+    "red_champion_top",
+    "red_champion_jungle",
+    "red_champion_mid",
+    "red_champion_adc",
+    "red_champion_support"
+  ],
+  "task_classes": {
+    "winner_side": [
+      "BLUE",
+      "RED"
+    ],
+    "first_dragon_side": [
+      "BLUE",
+      "RED"
+    ],
+    "more_dragons_side": [
+      "BLUE",
+      "RED",
+      "TIE"
+    ],
+    "first_four_dragon_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ],
+    "dragon_soul_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ],
+    "elder_dragon_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ],
+    "first_baron_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ]
+  },
+  "sources": {
+    "train": {
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\train.csv",
+      "bytes": 1290358,
+      "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
+    },
+    "test": {
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\test.csv",
+      "bytes": 111619,
+      "sha256": "07458579a0388589eac0a3470a79ab516861eef86b6d2f70129f2eb4f1785dd7"
+    },
+    "player_vocab": {
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\player_vocab.json",
+      "bytes": 5692,
+      "sha256": "ce86d72b2b33656c7238394311ba1fe1476a30d819c9d61cc4154435ea659365"
+    },
+    "champion_vocab": {
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\champion_vocab.json",
+      "bytes": 3008,
+      "sha256": "feeba1f5674c8fd782e35802b45b629e98c2d28740748d19ce6e5e836f1790be"
+    }
+  },
+  "dataset_summary": {
+    "train": {
+      "games": 4880,
+      "stage": "Regular Season",
+      "player_oov_slots": 0,
+      "champion_oov_slots": 0,
+      "targets": {
+        "winner_side": {
+          "valid": 4880,
+          "missing": 0,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 2605,
+            "RED": 2275
+          }
+        },
+        "first_dragon_side": {
+          "valid": 4880,
+          "missing": 0,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 2131,
+            "RED": 2749
+          }
+        },
+        "more_dragons_side": {
+          "valid": 4278,
+          "missing": 602,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 1836,
+            "RED": 1922,
+            "TIE": 520
+          }
+        },
+        "first_four_dragon_side": {
+          "valid": 4278,
+          "missing": 602,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 2641,
+            "RED": 871,
+            "BLUE": 766
+          }
+        },
+        "dragon_soul_side": {
+          "valid": 2768,
+          "missing": 43,
+          "not_applicable": 2069,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 1497,
+            "RED": 689,
+            "BLUE": 582
+          }
+        },
+        "elder_dragon_side": {
+          "valid": 4259,
+          "missing": 63,
+          "not_applicable": 558,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 3667,
+            "RED": 298,
+            "BLUE": 294
+          }
+        },
+        "first_baron_side": {
+          "valid": 4877,
+          "missing": 3,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 2372,
+            "RED": 2189,
+            "NONE": 316
+          }
+        }
+      }
+    },
+    "test": {
+      "games": 438,
+      "stage": "Playoff",
+      "player_oov_slots": 0,
+      "champion_oov_slots": 0,
+      "targets": {
+        "winner_side": {
+          "valid": 438,
+          "missing": 0,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 232,
+            "RED": 206
+          }
+        },
+        "first_dragon_side": {
+          "valid": 438,
+          "missing": 0,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 208,
+            "RED": 230
+          }
+        },
+        "more_dragons_side": {
+          "valid": 399,
+          "missing": 39,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "BLUE": 167,
+            "TIE": 55,
+            "RED": 177
+          }
+        },
+        "first_four_dragon_side": {
+          "valid": 399,
+          "missing": 39,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 236,
+            "BLUE": 80,
+            "RED": 83
+          }
+        },
+        "dragon_soul_side": {
+          "valid": 303,
+          "missing": 1,
+          "not_applicable": 134,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 154,
+            "RED": 75,
+            "BLUE": 74
+          }
+        },
+        "elder_dragon_side": {
+          "valid": 398,
+          "missing": 2,
+          "not_applicable": 38,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 350,
+            "BLUE": 19,
+            "RED": 29
+          }
+        },
+        "first_baron_side": {
+          "valid": 437,
+          "missing": 1,
+          "not_applicable": 0,
+          "excluded_nonbinary": 0,
+          "classes": {
+            "NONE": 16,
+            "RED": 205,
+            "BLUE": 216
+          }
+        }
+      }
+    }
+  },
+  "class_weighting": {
+    "enabled": true,
+    "formula": "N / (K_observed * class_count), using valid train labels only; absent classes=0",
+    "frequencies": {
+      "winner_side": [
+        2605,
+        2275
+      ],
+      "first_dragon_side": [
+        2131,
+        2749
+      ],
+      "more_dragons_side": [
+        1836,
+        1922,
+        520
+      ],
+      "first_four_dragon_side": [
+        766,
+        871,
+        2641
+      ],
+      "dragon_soul_side": [
+        582,
+        689,
+        1497
+      ],
+      "elder_dragon_side": [
+        294,
+        298,
+        3667
+      ],
+      "first_baron_side": [
+        2372,
+        2189,
+        316
+      ]
+    },
+    "weights": {
+      "winner_side": [
+        0.9366602897644043,
+        1.072527527809143
+      ],
+      "first_dragon_side": [
+        1.1450023651123047,
+        0.8875954747200012
+      ],
+      "more_dragons_side": [
+        0.7766884565353394,
+        0.7419354915618896,
+        2.742307662963867
+      ],
+      "first_four_dragon_side": [
+        1.8616187572479248,
+        1.637198567390442,
+        0.539946973323822
+      ],
+      "dragon_soul_side": [
+        1.5853378772735596,
+        1.3391388654708862,
+        0.6163437962532043
+      ],
+      "elder_dragon_side": [
+        4.828798294067383,
+        4.76398229598999,
+        0.38714662194252014
+      ],
+      "first_baron_side": [
+        0.6853569149971008,
+        0.7426526546478271,
+        5.144514560699463
+      ]
+    }
+  },
+  "environment": {
+    "python": "3.14.0",
+    "torch": "2.11.0+cu128",
+    "device": "cuda",
+    "cuda_runtime": "12.8",
+    "gpu": "NVIDIA GeForce RTX 4060 Ti"
+  },
+  "model_selection": "Final fixed epoch. Test is evaluated once, never used for early stopping or model selection.",
+  "loss_definition": "Mean of per-task CrossEntropy means; weighted means divide by sum of target-class weights when enabled. MISSING/N/A and first_dragon NONE are masked.",
+  "reported_loss_definition": "loss remains unweighted for comparison; optimization_loss is the mean of actual batch objectives (weighted when enabled).",
+  "metrics_definition": "Unweighted Accuracy and fixed-class macro F1 ignore MISSING/N/A and first_dragon NONE. Absent class P/R/F1=0; all-masked task=null. Confusion rows=true, columns=predicted.",
+  "train_metrics_definition": "Online epoch metrics before each batch update, with dropout active; not a final-model evaluation."
+}

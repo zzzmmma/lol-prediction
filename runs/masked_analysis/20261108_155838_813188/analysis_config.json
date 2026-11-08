@@ -1,0 +1,322 @@
+{
+  "split": {
+    "source": {
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\train.csv",
+      "bytes": 1290358,
+      "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
+    },
+    "split_seed": 42,
+    "unit": "game_id",
+    "train_fraction": 0.8,
+    "train_games": 3904,
+    "vocabulary_scope": "train_only",
+    "training_seeds": [
+      137,
+      482,
+      911,
+      2027,
+      7643
+    ],
+    "validation_games": 976,
+    "train_sha256": "c0fe2787e00f7d261138e2afe373b15ef52237738767364bcba0127d20e7a63c",
+    "validation_sha256": "10fbc7b8b1fd1d8508aa976c2fe75959ae4c40f93403d2cfaf76a151a2e4c969"
+  },
+  "sources": [
+    {
+      "model": "10l_16d",
+      "method": "baseline",
+      "seed": 137,
+      "epoch": 19,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\10l_16d\\seed_137\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "baseline",
+      "seed": 482,
+      "epoch": 14,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\10l_16d\\seed_482\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "baseline",
+      "seed": 911,
+      "epoch": 11,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\10l_16d\\seed_911\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "baseline",
+      "seed": 2027,
+      "epoch": 6,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\10l_16d\\seed_2027\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "baseline",
+      "seed": 7643,
+      "epoch": 13,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\10l_16d\\seed_7643\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "joint_lambda_1",
+      "seed": 137,
+      "epoch": 25,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\10l_16d\\seed_137\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "joint_lambda_1",
+      "seed": 482,
+      "epoch": 40,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\10l_16d\\seed_482\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "joint_lambda_1",
+      "seed": 911,
+      "epoch": 45,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\10l_16d\\seed_911\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "joint_lambda_1",
+      "seed": 2027,
+      "epoch": 27,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\10l_16d\\seed_2027\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "joint_lambda_1",
+      "seed": 7643,
+      "epoch": 32,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\10l_16d\\seed_7643\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_finetune",
+      "seed": 137,
+      "epoch": 3,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_137\\finetune\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_finetune",
+      "seed": 482,
+      "epoch": 6,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_482\\finetune\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_finetune",
+      "seed": 911,
+      "epoch": 9,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_911\\finetune\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_finetune",
+      "seed": 2027,
+      "epoch": 6,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_2027\\finetune\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_finetune",
+      "seed": 7643,
+      "epoch": 6,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_7643\\finetune\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_only",
+      "seed": 137,
+      "epoch": 53,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_137\\pretrain\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_only",
+      "seed": 482,
+      "epoch": 51,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_482\\pretrain\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_only",
+      "seed": 911,
+      "epoch": 54,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_911\\pretrain\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_only",
+      "seed": 2027,
+      "epoch": 59,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_2027\\pretrain\\best.pt"
+    },
+    {
+      "model": "10l_16d",
+      "method": "pretrain_only",
+      "seed": 7643,
+      "epoch": 54,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\10l_16d\\seed_7643\\pretrain\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "baseline",
+      "seed": 137,
+      "epoch": 13,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\6l_256d\\seed_137\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "baseline",
+      "seed": 482,
+      "epoch": 13,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\6l_256d\\seed_482\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "baseline",
+      "seed": 911,
+      "epoch": 10,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\6l_256d\\seed_911\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "baseline",
+      "seed": 2027,
+      "epoch": 6,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\6l_256d\\seed_2027\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "baseline",
+      "seed": 7643,
+      "epoch": 7,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\extended_regular_holdout\\6l_256d\\seed_7643\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "joint_lambda_1",
+      "seed": 137,
+      "epoch": 14,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\6l_256d\\seed_137\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "joint_lambda_1",
+      "seed": 482,
+      "epoch": 14,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\6l_256d\\seed_482\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "joint_lambda_1",
+      "seed": 911,
+      "epoch": 15,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\6l_256d\\seed_911\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "joint_lambda_1",
+      "seed": 2027,
+      "epoch": 13,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\6l_256d\\seed_2027\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "joint_lambda_1",
+      "seed": 7643,
+      "epoch": 13,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_champion\\lambda_1\\validation\\6l_256d\\seed_7643\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_finetune",
+      "seed": 137,
+      "epoch": 3,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_137\\finetune\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_finetune",
+      "seed": 482,
+      "epoch": 5,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_482\\finetune\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_finetune",
+      "seed": 911,
+      "epoch": 23,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_911\\finetune\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_finetune",
+      "seed": 2027,
+      "epoch": 6,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_2027\\finetune\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_finetune",
+      "seed": 7643,
+      "epoch": 3,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_7643\\finetune\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_only",
+      "seed": 137,
+      "epoch": 25,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_137\\pretrain\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_only",
+      "seed": 482,
+      "epoch": 28,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_482\\pretrain\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_only",
+      "seed": 911,
+      "epoch": 37,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_911\\pretrain\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_only",
+      "seed": 2027,
+      "epoch": 26,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_2027\\pretrain\\best.pt"
+    },
+    {
+      "model": "6l_256d",
+      "method": "pretrain_only",
+      "seed": 7643,
+      "epoch": 29,
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\runs\\masked_pretraining\\6l_256d\\seed_7643\\pretrain\\best.pt"
+    }
+  ],
+  "requested_seeds": [
+    137,
+    482,
+    911,
+    2027,
+    7643
+  ],
+  "plot_seeds": [
+    137
+  ],
+  "embedding_method": "Raw weights or learned linear projection including bias, then L2 normalization",
+  "role_rule": "Most appearances in train; ties in TOP/JUNGLE/MID/ADC/SUPPORT order",
+  "random_top10_rule": "Uniform neighbors without replacement excluding the query: (role size - 1)/(vocab size - 1)",
+  "frequency_rule": "Train counts; player ties by champion ID, then role and global fallback",
+  "eval_mask_seed": 42,
+  "eval_batch_size": 64
+}

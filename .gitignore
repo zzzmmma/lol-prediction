@@ -93,12 +93,14 @@ checkpoints/
 *.onnx
 
 # ==============================
-
 # Training Outputs
-
 # ==============================
 
-runs/
+runs/*
+!runs/**/
+!runs/**/*.csv
+!runs/**/*.json
+
 logs/
 wandb/
 tensorboard/

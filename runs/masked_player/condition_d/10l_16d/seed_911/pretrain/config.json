@@ -1,0 +1,69 @@
+{
+  "variant": "10l_16d",
+  "seed": 911,
+  "device": "cuda",
+  "split": {
+    "source": {
+      "path": "C:\\Users\\user\\Desktop\\projects\\lol-prediction\\data\\splits\\train.csv",
+      "bytes": 1290358,
+      "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
+    },
+    "split_seed": 42,
+    "unit": "game_id",
+    "train_fraction": 0.8,
+    "train_games": 3904,
+    "vocabulary_scope": "train_only",
+    "training_seeds": [
+      137,
+      482,
+      911,
+      2027,
+      7643
+    ],
+    "validation_games": 976,
+    "train_sha256": "c0fe2787e00f7d261138e2afe373b15ef52237738767364bcba0127d20e7a63c",
+    "validation_sha256": "10fbc7b8b1fd1d8508aa976c2fe75959ae4c40f93403d2cfaf76a151a2e4c969"
+  },
+  "max_epochs": 100,
+  "patience": 15,
+  "batch_size": 64,
+  "optimizer": "AdamW",
+  "lr": 0.0003,
+  "weight_decay": 0.01,
+  "grad_clip": 1.0,
+  "selection_metric": "validation_masked_token_top1_accuracy",
+  "task_loss_weights": {
+    "winner_side": 1.0,
+    "first_dragon_side": 1.0,
+    "more_dragons_side": 1.0,
+    "first_four_dragon_side": 1.0,
+    "dragon_soul_side": 0.5,
+    "elder_occurs": 1.0,
+    "elder_side": 1.0,
+    "first_baron_side": 1.0
+  },
+  "class_weight_powers": {
+    "first_dragon_side": 0.25,
+    "first_four_dragon_side": 0.5,
+    "dragon_soul_side": 0.5,
+    "elder_occurs": 1.0,
+    "elder_side": 1.0
+  },
+  "condition": "D",
+  "stage": "pretrain",
+  "mask_count": 3,
+  "eval_mask_seed": 42,
+  "mask_sampling": "uniform_triplet_over_20_slots",
+  "masked_reduction": "mean_over_in_vocab_targets",
+  "masked_lambda": null,
+  "model": {
+    "player_vocab_size": 334,
+    "champion_vocab_size": 171,
+    "embedding_dim": 256,
+    "num_layers": 10,
+    "num_heads": 8,
+    "feedforward_dim": 512,
+    "dropout": 0.1,
+    "token_embedding_dim": 16
+  }
+}
