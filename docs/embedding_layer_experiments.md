@@ -24,17 +24,15 @@ Every seed directory contains `last.pt`, `config.json`, `training_metrics.json`,
 task metrics per seed and their five-seed mean ± sample standard deviation
 (ddof=1), for both Training and Playoff.
 
-After the four experiments finish, pass all six experiment roots to:
+From the project root, aggregate the six saved runs with:
 
-```powershell
-.venv/Scripts/python.exe src/compare_embedding_layers.py `
-  --emb256-6l runs/layers_6_20260914_212350_572417 `
-  --emb16-6l runs/layers_6_emb16_20261027_230106_319953 `
-  --emb256-8l runs/<256D_8L_run> `
-  --emb256-10l runs/<256D_10L_run> `
-  --emb16-8l runs/<16D_8L_run> `
-  --emb16-10l runs/<16D_10L_run>
+```bash
+.venv/bin/python -m src.compare_embedding_layers
 ```
+
+The defaults use the local 256D/6L run `runs/layers_6_20261002_141236_234000`
+and the five October 27 runs. All six use the same 446-game Playoff dataset.
+Use `--help` to see the default paths and the flags for overriding them.
 
 The comparison script never trains. It reads saved reports; if an older run
 has no final `training_metrics.json`, it evaluates that run's saved checkpoint
@@ -53,8 +51,8 @@ The new `runs/embedding_layers_comparison_<timestamp>/` contains:
 Scores use the 0..1 scale. If a task has missing metrics in any seed, its
 aggregate is N/A rather than a mean over fewer seeds.
 
-The currently saved 256D/6L run used 438 Playoff games, while the 16D/6L run
-used 446. The comparison script rejects different test dataset fingerprints
+The older 256D/6L run `runs/layers_6_20260914_212350_572417` used 438 Playoff
+games. The comparison script rejects different test dataset fingerprints
 by default. To display these existing results together, append
 `--allow-different-test`; the output then records a warning, dataset hashes
 and game counts. Those Playoff scores cannot establish a controlled model

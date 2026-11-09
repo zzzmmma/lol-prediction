@@ -32,7 +32,8 @@ def prepare_split(source, directory, split_seed):
     rows = read_games(source)
     if not rows:
         raise ValueError(f'Empty source: {source}')
-    required = {'game_id', 'stage', 'winner_side'}
+    required = {'gam'
+    'e_id', 'stage', 'winner_side'}
     if required - rows[0].keys():
         raise ValueError(f'Missing source columns: {sorted(required - rows[0].keys())}')
     regular = [row for row in rows if row['stage'] == 'Regular Season'

@@ -71,12 +71,12 @@ def write_json(path, value):
     temp.replace(path)
 
 
-def write_csv(path, rows, columns):
+def write_csv(path, rows, columns, *, lineterminator='\r\n'):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(path.suffix + '.tmp')
     with temp.open('w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=columns)
+        writer = csv.DictWriter(f, fieldnames=columns, lineterminator=lineterminator)
         writer.writeheader()
         writer.writerows(rows)
     temp.replace(path)

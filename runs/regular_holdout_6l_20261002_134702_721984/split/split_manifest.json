@@ -1,0 +1,20 @@
+{
+  "source": {
+    "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/splits/train.csv",
+    "bytes": 1290358,
+    "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
+  },
+  "split_seed": 42,
+  "unit": "game_id",
+  "train_fraction": 0.8,
+  "train_games": 3904,
+  "test_games": 976,
+  "vocabulary_scope": "train_only",
+  "training_seeds": [
+    137,
+    482,
+    911,
+    2027,
+    7643
+  ]
+}

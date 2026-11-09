@@ -83,4 +83,4 @@ def write_summary(path, models, seeds, split):
                                      winner_head_trained=stage != 'pretrain',
                                      selection_metric=' / '.join(sorted(selection)),
                                      masking_protocol=MASK_PROTOCOL[condition], comparison_note=COMPARISON_NOTE))
-    write_csv(path, rows, tuple(rows[0]))
+    write_csv(path, rows, tuple(rows[0]), lineterminator='\n')

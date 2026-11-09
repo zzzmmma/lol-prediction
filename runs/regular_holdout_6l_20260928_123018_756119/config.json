@@ -1,0 +1,120 @@
+{
+  "model": {
+    "num_layers": 6,
+    "embedding_dim": 256,
+    "num_heads": 8,
+    "feedforward_dim": 512,
+    "dropout": 0.1
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0,
+    "epochs": 10,
+    "batch_size": 64
+  },
+  "class_weighting": {
+    "enabled": true,
+    "powers": {
+      "first_dragon_side": 0.25,
+      "first_four_dragon_side": 0.5,
+      "dragon_soul_side": 0.5,
+      "elder_occurs": 1.0,
+      "elder_side": 1.0
+    },
+    "weights": {
+      "first_dragon_side": [
+        0.1551232635974884,
+        0.14639808237552643
+      ],
+      "first_four_dragon_side": [
+        0.04019339382648468,
+        0.03860457241535187,
+        0.021708374843001366
+      ],
+      "dragon_soul_side": [
+        0.04632410779595375,
+        0.04315318539738655,
+        0.028939953073859215
+      ],
+      "elder_occurs": [
+        0.0021929824724793434,
+        0.0003401360590942204
+      ],
+      "elder_side": [
+        0.004545454401522875,
+        0.0042372881434857845
+      ]
+    }
+  },
+  "task_classes": {
+    "winner_side": [
+      "BLUE",
+      "RED"
+    ],
+    "first_dragon_side": [
+      "BLUE",
+      "RED"
+    ],
+    "more_dragons_side": [
+      "BLUE",
+      "RED",
+      "TIE"
+    ],
+    "first_four_dragon_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ],
+    "dragon_soul_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ],
+    "elder_occurs": [
+      "YES",
+      "NO"
+    ],
+    "elder_side": [
+      "BLUE",
+      "RED"
+    ],
+    "first_baron_side": [
+      "BLUE",
+      "RED",
+      "NONE"
+    ]
+  },
+  "task_loss_weights": {
+    "winner_side": 1.0,
+    "first_dragon_side": 1.0,
+    "more_dragons_side": 1.0,
+    "first_four_dragon_side": 1.0,
+    "dragon_soul_side": 0.5,
+    "elder_occurs": 1.0,
+    "elder_side": 1.0,
+    "first_baron_side": 1.0
+  },
+  "evaluation": "Final model in eval mode on full train and held-out Regular Season test; fixed-class macro F1",
+  "split_manifest": {
+    "source": {
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/splits/train.csv",
+      "bytes": 1290358,
+      "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
+    },
+    "split_seed": 42,
+    "unit": "game_id",
+    "train_fraction": 0.8,
+    "train_games": 3904,
+    "test_games": 976,
+    "vocabulary_scope": "train_only",
+    "training_seeds": [
+      137,
+      482,
+      911,
+      2027,
+      7643
+    ]
+  }
+}

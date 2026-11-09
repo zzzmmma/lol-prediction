@@ -258,8 +258,13 @@ def main():
                             run_stage(run / 'finetune', 'finetune', *settings, pretrained=run / 'pretrain/best.pt')
                 except Timeout:
                     parser.exit(1, f'Condition D run already in use: {run}\n')
-    summary = OUTPUT / 'comparisons' / f'{datetime.now():%Y%m%d_%H%M%S_%f}' / 'summary.csv'
-    write_summary(summary, models, seeds, split)
+    if set(models) == set(PLAYER_MODELS) and set(seeds) == set(SEEDS):
+        summary = OUTPUT / 'summary.csv'
+        with FileLock(summary.with_suffix('.lock')):
+            write_summary(summary, PLAYER_MODELS, SEEDS, split)
+    else:
+        summary = OUTPUT / 'comparisons' / f'{datetime.now():%Y%m%d_%H%M%S_%f}' / 'summary.csv'
+        write_summary(summary, models, seeds, split)
     print(f'Summary: {summary}', flush=True)
 
 

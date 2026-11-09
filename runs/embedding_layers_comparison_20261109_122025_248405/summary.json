@@ -1,0 +1,1329 @@
+{
+  "seeds": [
+    137,
+    482,
+    911,
+    2027,
+    7643
+  ],
+  "ddof": 1,
+  "score_range": [
+    0,
+    1
+  ],
+  "warning": null,
+  "test_sources": {
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000/seed_137": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000/seed_482": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000/seed_911": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000/seed_2027": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000/seed_7643": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953/seed_137": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953/seed_482": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953/seed_911": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953/seed_2027": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953/seed_7643": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803/seed_137": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803/seed_482": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803/seed_911": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803/seed_2027": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803/seed_7643": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376/seed_137": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376/seed_482": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376/seed_911": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376/seed_2027": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376/seed_7643": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739/seed_137": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739/seed_482": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739/seed_911": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739/seed_2027": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739/seed_7643": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859/seed_137": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859/seed_482": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859/seed_911": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859/seed_2027": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    },
+    "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859/seed_7643": {
+      "sha256": "1c0415594de482781e7a8780afa6a4f5839e2ab5567fad65fefa04e409ced28d",
+      "games": 446
+    }
+  },
+  "all_tasks": [
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.7628688524590164,
+      "accuracy_std": 0.009358496851327806,
+      "macro_f1_mean": 0.7614882428463757,
+      "macro_f1_std": 0.009419440471357704
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6758196721311476,
+      "accuracy_std": 0.008226125537569302,
+      "macro_f1_mean": 0.6510999470621897,
+      "macro_f1_std": 0.0256060641776523
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6532959326788219,
+      "accuracy_std": 0.02514590006221692,
+      "macro_f1_mean": 0.4962479404588211,
+      "macro_f1_std": 0.04210600933282024
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6816269284712483,
+      "accuracy_std": 0.028796378858222494,
+      "macro_f1_mean": 0.6093828899409564,
+      "macro_f1_std": 0.010312850342796099
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6455202312138728,
+      "accuracy_std": 0.018181335854951557,
+      "macro_f1_mean": 0.5951670465522337,
+      "macro_f1_std": 0.02609828373389548
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.755670345151444,
+      "accuracy_std": 0.05737280405173031,
+      "macro_f1_mean": 0.6548451123229933,
+      "macro_f1_std": 0.03147567486759832
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.9631756756756756,
+      "accuracy_std": 0.011605110836025449,
+      "macro_f1_mean": 0.9631580229760859,
+      "macro_f1_std": 0.01162559274156881
+    },
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6751281525527989,
+      "accuracy_std": 0.008310738006024672,
+      "macro_f1_mean": 0.49167665867004967,
+      "macro_f1_std": 0.024602820819220314
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6026905829596413,
+      "accuracy_std": 0.018584184560629685,
+      "macro_f1_mean": 0.5965249853282547,
+      "macro_f1_std": 0.022597176951560077
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.5614349775784754,
+      "accuracy_std": 0.020708071549809547,
+      "macro_f1_mean": 0.5226668369265344,
+      "macro_f1_std": 0.047305480985375105
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.4638820638820639,
+      "accuracy_std": 0.024098672894819127,
+      "macro_f1_mean": 0.33439207516226604,
+      "macro_f1_std": 0.03466499250818362
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.48452088452088454,
+      "accuracy_std": 0.0304608855260343,
+      "macro_f1_mean": 0.36516174655103695,
+      "macro_f1_std": 0.02453823980164355
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.4398713826366559,
+      "accuracy_std": 0.036760160995569904,
+      "macro_f1_mean": 0.3403883230047073,
+      "macro_f1_std": 0.02042456328502935
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.683743842364532,
+      "accuracy_std": 0.07819178786350375,
+      "macro_f1_mean": 0.5020343633316108,
+      "macro_f1_std": 0.023754130584881426
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.5306122448979592,
+      "accuracy_std": 0.04563404035713855,
+      "macro_f1_mean": 0.5248290270939411,
+      "macro_f1_std": 0.04710515257569709
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.5370786516853933,
+      "accuracy_std": 0.005270130067217297,
+      "macro_f1_mean": 0.36113797771390976,
+      "macro_f1_std": 0.005433012519144413
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6949590163934426,
+      "accuracy_std": 0.012560823532947733,
+      "macro_f1_mean": 0.6880777858129282,
+      "macro_f1_std": 0.018621004226667785
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6004098360655737,
+      "accuracy_std": 0.014822246983627179,
+      "macro_f1_mean": 0.5275183084156853,
+      "macro_f1_std": 0.055324849754320234
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.5830294530154277,
+      "accuracy_std": 0.018478700724178145,
+      "macro_f1_mean": 0.4072133283594688,
+      "macro_f1_std": 0.020051694737046693
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.5856007480130903,
+      "accuracy_std": 0.06842717318674185,
+      "macro_f1_mean": 0.46594356495985684,
+      "macro_f1_std": 0.02811698586798639
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.5354768786127168,
+      "accuracy_std": 0.02859003706455217,
+      "macro_f1_mean": 0.39727671905840506,
+      "macro_f1_std": 0.0799355245415097
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6630664475228927,
+      "accuracy_std": 0.04869474881250353,
+      "macro_f1_mean": 0.5648998800193633,
+      "macro_f1_std": 0.029624475179897174
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.7199324324324324,
+      "accuracy_std": 0.04341906297029457,
+      "macro_f1_mean": 0.7053927684852729,
+      "macro_f1_std": 0.05843114263089304
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6006561410703302,
+      "accuracy_std": 0.015522934155629829,
+      "macro_f1_mean": 0.40997174834510625,
+      "macro_f1_std": 0.013595041028762692
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6139013452914799,
+      "accuracy_std": 0.04120317393550637,
+      "macro_f1_mean": 0.5872927402030664,
+      "macro_f1_std": 0.06676018498211576
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.536322869955157,
+      "accuracy_std": 0.010323645231588675,
+      "macro_f1_mean": 0.4257870709940098,
+      "macro_f1_std": 0.05551735833172649
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.4810810810810811,
+      "accuracy_std": 0.015185785887334095,
+      "macro_f1_mean": 0.3238872176681866,
+      "macro_f1_std": 0.03846597075194517
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.4977886977886978,
+      "accuracy_std": 0.067413270327833,
+      "macro_f1_mean": 0.3395288794139678,
+      "macro_f1_std": 0.014742277622617563
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.4527331189710611,
+      "accuracy_std": 0.057761583901840066,
+      "macro_f1_mean": 0.2798587940458024,
+      "macro_f1_std": 0.037775616536649334
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.693103448275862,
+      "accuracy_std": 0.03459692571313968,
+      "macro_f1_mean": 0.5154472992853595,
+      "macro_f1_std": 0.010791436666385603
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.46122448979591835,
+      "accuracy_std": 0.049149365627723665,
+      "macro_f1_mean": 0.4342726890757233,
+      "macro_f1_std": 0.07098929059981056
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.5474157303370787,
+      "accuracy_std": 0.023004914862147837,
+      "macro_f1_mean": 0.35684128013713307,
+      "macro_f1_std": 0.028727389785667898
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.7647950819672131,
+      "accuracy_std": 0.002851970233230623,
+      "macro_f1_mean": 0.7623048822117682,
+      "macro_f1_std": 0.004931688073933417
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.6715163934426229,
+      "accuracy_std": 0.017289181069323003,
+      "macro_f1_mean": 0.6494378593260838,
+      "macro_f1_std": 0.023854118971381646
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.6477793361383825,
+      "accuracy_std": 0.02127380555867359,
+      "macro_f1_mean": 0.5011257056027896,
+      "macro_f1_std": 0.05974673076215862
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.6710144927536232,
+      "accuracy_std": 0.04257425057769169,
+      "macro_f1_mean": 0.5736145378519654,
+      "macro_f1_std": 0.031969995034748684
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.639956647398844,
+      "accuracy_std": 0.024262560372821988,
+      "macro_f1_mean": 0.5814546870141294,
+      "macro_f1_std": 0.0295311149083361
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.7338342333881193,
+      "accuracy_std": 0.08891483031110381,
+      "macro_f1_mean": 0.644104839987775,
+      "macro_f1_std": 0.06588169282243864
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.9506756756756757,
+      "accuracy_std": 0.036433269498764624,
+      "macro_f1_mean": 0.9504131464995356,
+      "macro_f1_std": 0.036999791850023105
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.6733647734262866,
+      "accuracy_std": 0.005156767004289216,
+      "macro_f1_mean": 0.4717761537635106,
+      "macro_f1_std": 0.013366143951800809
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.590134529147982,
+      "accuracy_std": 0.01782475956444107,
+      "macro_f1_mean": 0.5810365549177846,
+      "macro_f1_std": 0.021552482975770986
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.5515695067264574,
+      "accuracy_std": 0.024510326355465774,
+      "macro_f1_mean": 0.515766549222762,
+      "macro_f1_std": 0.04956956640297605
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.4619164619164619,
+      "accuracy_std": 0.03530739032727251,
+      "macro_f1_mean": 0.34050701865599653,
+      "macro_f1_std": 0.032470271624848716
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.5228501228501229,
+      "accuracy_std": 0.04669597648434243,
+      "macro_f1_mean": 0.3804825521501179,
+      "macro_f1_std": 0.02828000586775409
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.4495176848874598,
+      "accuracy_std": 0.033830889871543764,
+      "macro_f1_mean": 0.34935858297962,
+      "macro_f1_std": 0.02168119379544858
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.6600985221674877,
+      "accuracy_std": 0.08999421628790695,
+      "macro_f1_mean": 0.4883481174522834,
+      "macro_f1_std": 0.03221997096744169
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.5061224489795919,
+      "accuracy_std": 0.026608989408990414,
+      "macro_f1_mean": 0.49239685334601485,
+      "macro_f1_std": 0.03998658282650705
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.531685393258427,
+      "accuracy_std": 0.025003471542833496,
+      "macro_f1_mean": 0.35743522633040115,
+      "macro_f1_std": 0.016424864112544135
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.7605327868852458,
+      "accuracy_std": 0.009511155206775576,
+      "macro_f1_mean": 0.758503154042999,
+      "macro_f1_std": 0.011073475133138203
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.6765163934426229,
+      "accuracy_std": 0.011990419336790441,
+      "macro_f1_mean": 0.656738324261226,
+      "macro_f1_std": 0.028893049117487697
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.6564749883122954,
+      "accuracy_std": 0.014332195121715904,
+      "macro_f1_mean": 0.49410453454507164,
+      "macro_f1_std": 0.04540503421968278
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.6655446470313231,
+      "accuracy_std": 0.024267345041580787,
+      "macro_f1_mean": 0.5695239671972275,
+      "macro_f1_std": 0.03248044542195628
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.6303468208092485,
+      "accuracy_std": 0.02765368907450351,
+      "macro_f1_mean": 0.572472708274866,
+      "macro_f1_std": 0.02583788614924128
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.7252876262033341,
+      "accuracy_std": 0.1115090008980496,
+      "macro_f1_mean": 0.6323667539606904,
+      "macro_f1_std": 0.07394277458907049
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.9422297297297297,
+      "accuracy_std": 0.027116616715924097,
+      "macro_f1_mean": 0.9420104614742546,
+      "macro_f1_std": 0.02740961283728187
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.6649989747795776,
+      "accuracy_std": 0.010562656499147689,
+      "macro_f1_mean": 0.4633574841841489,
+      "macro_f1_std": 0.008242669516949793
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.589237668161435,
+      "accuracy_std": 0.015485467847382956,
+      "macro_f1_mean": 0.5833538246879026,
+      "macro_f1_std": 0.02120998530903378
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.5502242152466368,
+      "accuracy_std": 0.011165829235864327,
+      "macro_f1_mean": 0.5224893863210829,
+      "macro_f1_std": 0.033723639214233485
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.4678132678132678,
+      "accuracy_std": 0.01818845751677813,
+      "macro_f1_mean": 0.34186376254670287,
+      "macro_f1_std": 0.02296522642939951
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.4963144963144963,
+      "accuracy_std": 0.042378841058133505,
+      "macro_f1_mean": 0.35976671710112246,
+      "macro_f1_std": 0.038139947704536194
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.4553054662379421,
+      "accuracy_std": 0.0369844813749469,
+      "macro_f1_mean": 0.35417493670977246,
+      "macro_f1_std": 0.02517192018032336
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.6783251231527093,
+      "accuracy_std": 0.1256109339359407,
+      "macro_f1_mean": 0.48966365284895247,
+      "macro_f1_std": 0.04147810976227807
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.5346938775510204,
+      "accuracy_std": 0.05081591672648462,
+      "macro_f1_mean": 0.5193309576619533,
+      "macro_f1_std": 0.06417498989796448
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.5325842696629214,
+      "accuracy_std": 0.030232863027131934,
+      "macro_f1_mean": 0.356017569601771,
+      "macro_f1_std": 0.02450815321909639
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.699016393442623,
+      "accuracy_std": 0.015873808457569194,
+      "macro_f1_mean": 0.6937996858507096,
+      "macro_f1_std": 0.019865304682511253
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.6000409836065574,
+      "accuracy_std": 0.0052131405298878036,
+      "macro_f1_mean": 0.5501028142962885,
+      "macro_f1_std": 0.04279058883894415
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.5817204301075268,
+      "accuracy_std": 0.01726666011253323,
+      "macro_f1_mean": 0.4056460150623093,
+      "macro_f1_std": 0.015696331986962214
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.5936418887330528,
+      "accuracy_std": 0.058452686455600686,
+      "macro_f1_mean": 0.44944814254929044,
+      "macro_f1_std": 0.05688123148844721
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.5291907514450868,
+      "accuracy_std": 0.0451903070389989,
+      "macro_f1_mean": 0.38485246105249693,
+      "macro_f1_std": 0.07506741234472963
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.6534397745949754,
+      "accuracy_std": 0.12051418396379752,
+      "macro_f1_mean": 0.5529623302066209,
+      "macro_f1_std": 0.06460075558499487
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.7216216216216217,
+      "accuracy_std": 0.06182755492962345,
+      "macro_f1_mean": 0.7108517954603362,
+      "macro_f1_std": 0.08090465033441772
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.6043879434078326,
+      "accuracy_std": 0.010220990005117525,
+      "macro_f1_mean": 0.4115375105769333,
+      "macro_f1_std": 0.01150925569673685
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.6098654708520179,
+      "accuracy_std": 0.03653401510493348,
+      "macro_f1_mean": 0.5892529229132023,
+      "macro_f1_std": 0.056068284992397605
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.5376681614349775,
+      "accuracy_std": 0.006221720594399842,
+      "macro_f1_mean": 0.45941781615344596,
+      "macro_f1_std": 0.0622389283652633
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.4678132678132678,
+      "accuracy_std": 0.015500550659054067,
+      "macro_f1_mean": 0.3082390645659935,
+      "macro_f1_std": 0.022617712074152876
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.5184275184275184,
+      "accuracy_std": 0.05485777287903219,
+      "macro_f1_mean": 0.3401740768449957,
+      "macro_f1_std": 0.04659507555699192
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.4752411575562701,
+      "accuracy_std": 0.04988588211587074,
+      "macro_f1_mean": 0.2866979001222072,
+      "macro_f1_std": 0.053780734846406365
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.689655172413793,
+      "accuracy_std": 0.08825848703038874,
+      "macro_f1_mean": 0.5055189025057062,
+      "macro_f1_std": 0.024976126928244285
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.47346938775510206,
+      "accuracy_std": 0.046537772453026045,
+      "macro_f1_mean": 0.4531087786007939,
+      "macro_f1_std": 0.06925699845810615
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.5303370786516854,
+      "accuracy_std": 0.01271203202133119,
+      "macro_f1_mean": 0.34306567726667386,
+      "macro_f1_std": 0.02675864029258442
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.7026229508196721,
+      "accuracy_std": 0.007526938095770051,
+      "macro_f1_mean": 0.697300206474434,
+      "macro_f1_std": 0.01621089111656786
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.5970081967213114,
+      "accuracy_std": 0.010883443461278515,
+      "macro_f1_mean": 0.5102543444067555,
+      "macro_f1_std": 0.06046070345377241
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.579382889200561,
+      "accuracy_std": 0.006550538726137356,
+      "macro_f1_mean": 0.40559069476537923,
+      "macro_f1_std": 0.007516395670574981
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.5712949976624591,
+      "accuracy_std": 0.07386629266012154,
+      "macro_f1_mean": 0.43681632875445525,
+      "macro_f1_std": 0.06061922566991223
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.5335982658959537,
+      "accuracy_std": 0.0422718738064973,
+      "macro_f1_mean": 0.38451585921099596,
+      "macro_f1_std": 0.07680791587323922
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.7083352899741723,
+      "accuracy_std": 0.09277707700869507,
+      "macro_f1_mean": 0.5808258472173801,
+      "macro_f1_std": 0.05072256274974748
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.7016891891891892,
+      "accuracy_std": 0.06794237261884634,
+      "macro_f1_mean": 0.6827715384262752,
+      "macro_f1_std": 0.09890531616223937
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.6049620668443716,
+      "accuracy_std": 0.019480590908117545,
+      "macro_f1_mean": 0.4101993464661983,
+      "macro_f1_std": 0.020473739489634095
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.6170403587443946,
+      "accuracy_std": 0.016957551929317527,
+      "macro_f1_mean": 0.6067836257415142,
+      "macro_f1_std": 0.02866286948914551
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "first_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.5434977578475336,
+      "accuracy_std": 0.013035373859864242,
+      "macro_f1_mean": 0.42207599100382936,
+      "macro_f1_std": 0.06752488570268306
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "more_dragons_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.483046683046683,
+      "accuracy_std": 0.01283769088708909,
+      "macro_f1_mean": 0.3218524798157103,
+      "macro_f1_std": 0.025340245320466293
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "first_four_dragon_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.5061425061425062,
+      "accuracy_std": 0.06773488330265466,
+      "macro_f1_mean": 0.3181430989312042,
+      "macro_f1_std": 0.049799651986345006
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "dragon_soul_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.4752411575562701,
+      "accuracy_std": 0.04050681293446565,
+      "macro_f1_mean": 0.2681231512014599,
+      "macro_f1_std": 0.03314793508233928
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "elder_occurs",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.7403940886699507,
+      "accuracy_std": 0.06862601162618545,
+      "macro_f1_mean": 0.5236644085460903,
+      "macro_f1_std": 0.01131057674154108
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "elder_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.45714285714285713,
+      "accuracy_std": 0.05513982075961755,
+      "macro_f1_mean": 0.43493727465841325,
+      "macro_f1_std": 0.061533074954503005
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "first_baron_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.5361797752808989,
+      "accuracy_std": 0.01897512973715465,
+      "macro_f1_mean": 0.3441752813961239,
+      "macro_f1_std": 0.02888613375628306
+    }
+  ],
+  "winner_summary": [
+    {
+      "model": "256D/6L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.7628688524590164,
+      "accuracy_std": 0.009358496851327806,
+      "macro_f1_mean": 0.7614882428463757,
+      "macro_f1_std": 0.009419440471357704
+    },
+    {
+      "model": "256D/6L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_20261002_141236_234000",
+      "accuracy_mean": 0.6026905829596413,
+      "accuracy_std": 0.018584184560629685,
+      "macro_f1_mean": 0.5965249853282547,
+      "macro_f1_std": 0.022597176951560077
+    },
+    {
+      "model": "16D/6L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6949590163934426,
+      "accuracy_std": 0.012560823532947733,
+      "macro_f1_mean": 0.6880777858129282,
+      "macro_f1_std": 0.018621004226667785
+    },
+    {
+      "model": "16D/6L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_6_emb16_20261027_230106_319953",
+      "accuracy_mean": 0.6139013452914799,
+      "accuracy_std": 0.04120317393550637,
+      "macro_f1_mean": 0.5872927402030664,
+      "macro_f1_std": 0.06676018498211576
+    },
+    {
+      "model": "256D/8L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.7647950819672131,
+      "accuracy_std": 0.002851970233230623,
+      "macro_f1_mean": 0.7623048822117682,
+      "macro_f1_std": 0.004931688073933417
+    },
+    {
+      "model": "256D/8L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_20261027_232239_332803",
+      "accuracy_mean": 0.590134529147982,
+      "accuracy_std": 0.01782475956444107,
+      "macro_f1_mean": 0.5810365549177846,
+      "macro_f1_std": 0.021552482975770986
+    },
+    {
+      "model": "256D/10L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.7605327868852458,
+      "accuracy_std": 0.009511155206775576,
+      "macro_f1_mean": 0.758503154042999,
+      "macro_f1_std": 0.011073475133138203
+    },
+    {
+      "model": "256D/10L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_20261027_233011_200376",
+      "accuracy_mean": 0.589237668161435,
+      "accuracy_std": 0.015485467847382956,
+      "macro_f1_mean": 0.5833538246879026,
+      "macro_f1_std": 0.02120998530903378
+    },
+    {
+      "model": "16D/8L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.699016393442623,
+      "accuracy_std": 0.015873808457569194,
+      "macro_f1_mean": 0.6937996858507096,
+      "macro_f1_std": 0.019865304682511253
+    },
+    {
+      "model": "16D/8L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_8_emb16_20261027_231730_292739",
+      "accuracy_mean": 0.6098654708520179,
+      "accuracy_std": 0.03653401510493348,
+      "macro_f1_mean": 0.5892529229132023,
+      "macro_f1_std": 0.056068284992397605
+    },
+    {
+      "model": "16D/10L",
+      "split": "Training",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.7026229508196721,
+      "accuracy_std": 0.007526938095770051,
+      "macro_f1_mean": 0.697300206474434,
+      "macro_f1_std": 0.01621089111656786
+    },
+    {
+      "model": "16D/10L",
+      "split": "Playoff",
+      "task": "winner_side",
+      "seeds": 5,
+      "source_run": "/Users/hanjune/Desktop/projects/lol-prediction/runs/layers_10_emb16_20261027_232510_052859",
+      "accuracy_mean": 0.6170403587443946,
+      "accuracy_std": 0.016957551929317527,
+      "macro_f1_mean": 0.6067836257415142,
+      "macro_f1_std": 0.02866286948914551
+    }
+  ]
+}

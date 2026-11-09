@@ -1,0 +1,207 @@
+{
+  "split": {
+    "source": {
+      "path": "/Users/hanjune/Desktop/projects/lol-prediction/data/splits/train.csv",
+      "bytes": 1290358,
+      "sha256": "84bbbbd805913e1a7e8ec3bbb019d14767c40962c199ec40477672c11ad288ad"
+    },
+    "split_seed": 42,
+    "unit": "game_id",
+    "train_fraction": 0.8,
+    "train_games": 3904,
+    "test_games": 976,
+    "vocabulary_scope": "train_only",
+    "training_seeds": [
+      137,
+      482,
+      911,
+      2027,
+      7643
+    ]
+  },
+  "seeds": [
+    137,
+    482,
+    911,
+    2027,
+    7643
+  ],
+  "tasks": {
+    "winner_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.7734118852459017,
+          "std_ddof1": 0.010101765367900065
+        },
+        "macro_f1": {
+          "mean": 0.7727973934477221,
+          "std_ddof1": 0.009410908920211356
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.6495901639344263,
+          "std_ddof1": 0.004406928927788234
+        },
+        "macro_f1": {
+          "mean": 0.6485839001622065,
+          "std_ddof1": 0.005147114679316297
+        }
+      }
+    },
+    "first_dragon_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.6684426229508197,
+          "std_ddof1": 0.013648842812546696
+        },
+        "macro_f1": {
+          "mean": 0.6432816745312201,
+          "std_ddof1": 0.038793360110121446
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.5891393442622951,
+          "std_ddof1": 0.019467213114754103
+        },
+        "macro_f1": {
+          "mean": 0.5486685620223657,
+          "std_ddof1": 0.01915389619998042
+        }
+      }
+    },
+    "more_dragons_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.6587338804220398,
+          "std_ddof1": 0.017894405704417655
+        },
+        "macro_f1": {
+          "mean": 0.49046759362362097,
+          "std_ddof1": 0.024080170086696655
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.5478060046189377,
+          "std_ddof1": 0.021872998600557192
+        },
+        "macro_f1": {
+          "mean": 0.397725238666507,
+          "std_ddof1": 0.025388617972497193
+        }
+      }
+    },
+    "first_four_dragon_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.6808323563892146,
+          "std_ddof1": 0.024886201307565966
+        },
+        "macro_f1": {
+          "mean": 0.6205544410834893,
+          "std_ddof1": 0.018961084460480768
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.5168591224018476,
+          "std_ddof1": 0.015201323079689643
+        },
+        "macro_f1": {
+          "mean": 0.4168178835317621,
+          "std_ddof1": 0.008809706934551851
+        }
+      }
+    },
+    "dragon_soul_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.6374146563495676,
+          "std_ddof1": 0.01760086896598147
+        },
+        "macro_f1": {
+          "mean": 0.6106515913969706,
+          "std_ddof1": 0.012488267051375802
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.4539404553415061,
+          "std_ddof1": 0.02128404357606912
+        },
+        "macro_f1": {
+          "mean": 0.3984024886759323,
+          "std_ddof1": 0.015790204221872408
+        }
+      }
+    },
+    "elder_occurs": {
+      "training": {
+        "accuracy": {
+          "mean": 0.6832744405182568,
+          "std_ddof1": 0.06757889584036857
+        },
+        "macro_f1": {
+          "mean": 0.6122454590055367,
+          "std_ddof1": 0.05215357212518711
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.5837775202780997,
+          "std_ddof1": 0.05433406431501122
+        },
+        "macro_f1": {
+          "mean": 0.49999085600594123,
+          "std_ddof1": 0.02321478808624764
+        }
+      }
+    },
+    "elder_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.9671052631578947,
+          "std_ddof1": 0.025854881847700874
+        },
+        "macro_f1": {
+          "mean": 0.9670559257184135,
+          "std_ddof1": 0.025888844228667177
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.5161764705882352,
+          "std_ddof1": 0.024052098873229618
+        },
+        "macro_f1": {
+          "mean": 0.5070637760679259,
+          "std_ddof1": 0.0318598630845529
+        }
+      }
+    },
+    "first_baron_side": {
+      "training": {
+        "accuracy": {
+          "mean": 0.6820815175596001,
+          "std_ddof1": 0.0050669399260660115
+        },
+        "macro_f1": {
+          "mean": 0.48778961739164195,
+          "std_ddof1": 0.023816385986397272
+        }
+      },
+      "test": {
+        "accuracy": {
+          "mean": 0.5565573770491803,
+          "std_ddof1": 0.004059756712327643
+        },
+        "macro_f1": {
+          "mean": 0.3841586597106029,
+          "std_ddof1": 0.007175148868431381
+        }
+      }
+    }
+  }
+}

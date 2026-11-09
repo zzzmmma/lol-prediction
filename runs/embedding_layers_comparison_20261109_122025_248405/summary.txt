@@ -1,0 +1,115 @@
+All scores are 0..1; standard deviation uses ddof=1.
+
+Winner Prediction comparison
+Model | Split | Accuracy mean ± std | Macro F1 mean ± std
+256D/6L | Training | 0.762869 ± 0.009358 | 0.761488 ± 0.009419
+256D/6L | Playoff | 0.602691 ± 0.018584 | 0.596525 ± 0.022597
+16D/6L | Training | 0.694959 ± 0.012561 | 0.688078 ± 0.018621
+16D/6L | Playoff | 0.613901 ± 0.041203 | 0.587293 ± 0.066760
+256D/8L | Training | 0.764795 ± 0.002852 | 0.762305 ± 0.004932
+256D/8L | Playoff | 0.590135 ± 0.017825 | 0.581037 ± 0.021552
+256D/10L | Training | 0.760533 ± 0.009511 | 0.758503 ± 0.011073
+256D/10L | Playoff | 0.589238 ± 0.015485 | 0.583354 ± 0.021210
+16D/8L | Training | 0.699016 ± 0.015874 | 0.693800 ± 0.019865
+16D/8L | Playoff | 0.609865 ± 0.036534 | 0.589253 ± 0.056068
+16D/10L | Training | 0.702623 ± 0.007527 | 0.697300 ± 0.016211
+16D/10L | Playoff | 0.617040 ± 0.016958 | 0.606784 ± 0.028663
+
+All tasks
+Model | Split | Task | Accuracy mean ± std | Macro F1 mean ± std
+256D/6L | Training | winner_side | 0.762869 ± 0.009358 | 0.761488 ± 0.009419
+256D/6L | Training | first_dragon_side | 0.675820 ± 0.008226 | 0.651100 ± 0.025606
+256D/6L | Training | more_dragons_side | 0.653296 ± 0.025146 | 0.496248 ± 0.042106
+256D/6L | Training | first_four_dragon_side | 0.681627 ± 0.028796 | 0.609383 ± 0.010313
+256D/6L | Training | dragon_soul_side | 0.645520 ± 0.018181 | 0.595167 ± 0.026098
+256D/6L | Training | elder_occurs | 0.755670 ± 0.057373 | 0.654845 ± 0.031476
+256D/6L | Training | elder_side | 0.963176 ± 0.011605 | 0.963158 ± 0.011626
+256D/6L | Training | first_baron_side | 0.675128 ± 0.008311 | 0.491677 ± 0.024603
+256D/6L | Playoff | winner_side | 0.602691 ± 0.018584 | 0.596525 ± 0.022597
+256D/6L | Playoff | first_dragon_side | 0.561435 ± 0.020708 | 0.522667 ± 0.047305
+256D/6L | Playoff | more_dragons_side | 0.463882 ± 0.024099 | 0.334392 ± 0.034665
+256D/6L | Playoff | first_four_dragon_side | 0.484521 ± 0.030461 | 0.365162 ± 0.024538
+256D/6L | Playoff | dragon_soul_side | 0.439871 ± 0.036760 | 0.340388 ± 0.020425
+256D/6L | Playoff | elder_occurs | 0.683744 ± 0.078192 | 0.502034 ± 0.023754
+256D/6L | Playoff | elder_side | 0.530612 ± 0.045634 | 0.524829 ± 0.047105
+256D/6L | Playoff | first_baron_side | 0.537079 ± 0.005270 | 0.361138 ± 0.005433
+16D/6L | Training | winner_side | 0.694959 ± 0.012561 | 0.688078 ± 0.018621
+16D/6L | Training | first_dragon_side | 0.600410 ± 0.014822 | 0.527518 ± 0.055325
+16D/6L | Training | more_dragons_side | 0.583029 ± 0.018479 | 0.407213 ± 0.020052
+16D/6L | Training | first_four_dragon_side | 0.585601 ± 0.068427 | 0.465944 ± 0.028117
+16D/6L | Training | dragon_soul_side | 0.535477 ± 0.028590 | 0.397277 ± 0.079936
+16D/6L | Training | elder_occurs | 0.663066 ± 0.048695 | 0.564900 ± 0.029624
+16D/6L | Training | elder_side | 0.719932 ± 0.043419 | 0.705393 ± 0.058431
+16D/6L | Training | first_baron_side | 0.600656 ± 0.015523 | 0.409972 ± 0.013595
+16D/6L | Playoff | winner_side | 0.613901 ± 0.041203 | 0.587293 ± 0.066760
+16D/6L | Playoff | first_dragon_side | 0.536323 ± 0.010324 | 0.425787 ± 0.055517
+16D/6L | Playoff | more_dragons_side | 0.481081 ± 0.015186 | 0.323887 ± 0.038466
+16D/6L | Playoff | first_four_dragon_side | 0.497789 ± 0.067413 | 0.339529 ± 0.014742
+16D/6L | Playoff | dragon_soul_side | 0.452733 ± 0.057762 | 0.279859 ± 0.037776
+16D/6L | Playoff | elder_occurs | 0.693103 ± 0.034597 | 0.515447 ± 0.010791
+16D/6L | Playoff | elder_side | 0.461224 ± 0.049149 | 0.434273 ± 0.070989
+16D/6L | Playoff | first_baron_side | 0.547416 ± 0.023005 | 0.356841 ± 0.028727
+256D/8L | Training | winner_side | 0.764795 ± 0.002852 | 0.762305 ± 0.004932
+256D/8L | Training | first_dragon_side | 0.671516 ± 0.017289 | 0.649438 ± 0.023854
+256D/8L | Training | more_dragons_side | 0.647779 ± 0.021274 | 0.501126 ± 0.059747
+256D/8L | Training | first_four_dragon_side | 0.671014 ± 0.042574 | 0.573615 ± 0.031970
+256D/8L | Training | dragon_soul_side | 0.639957 ± 0.024263 | 0.581455 ± 0.029531
+256D/8L | Training | elder_occurs | 0.733834 ± 0.088915 | 0.644105 ± 0.065882
+256D/8L | Training | elder_side | 0.950676 ± 0.036433 | 0.950413 ± 0.037000
+256D/8L | Training | first_baron_side | 0.673365 ± 0.005157 | 0.471776 ± 0.013366
+256D/8L | Playoff | winner_side | 0.590135 ± 0.017825 | 0.581037 ± 0.021552
+256D/8L | Playoff | first_dragon_side | 0.551570 ± 0.024510 | 0.515767 ± 0.049570
+256D/8L | Playoff | more_dragons_side | 0.461916 ± 0.035307 | 0.340507 ± 0.032470
+256D/8L | Playoff | first_four_dragon_side | 0.522850 ± 0.046696 | 0.380483 ± 0.028280
+256D/8L | Playoff | dragon_soul_side | 0.449518 ± 0.033831 | 0.349359 ± 0.021681
+256D/8L | Playoff | elder_occurs | 0.660099 ± 0.089994 | 0.488348 ± 0.032220
+256D/8L | Playoff | elder_side | 0.506122 ± 0.026609 | 0.492397 ± 0.039987
+256D/8L | Playoff | first_baron_side | 0.531685 ± 0.025003 | 0.357435 ± 0.016425
+256D/10L | Training | winner_side | 0.760533 ± 0.009511 | 0.758503 ± 0.011073
+256D/10L | Training | first_dragon_side | 0.676516 ± 0.011990 | 0.656738 ± 0.028893
+256D/10L | Training | more_dragons_side | 0.656475 ± 0.014332 | 0.494105 ± 0.045405
+256D/10L | Training | first_four_dragon_side | 0.665545 ± 0.024267 | 0.569524 ± 0.032480
+256D/10L | Training | dragon_soul_side | 0.630347 ± 0.027654 | 0.572473 ± 0.025838
+256D/10L | Training | elder_occurs | 0.725288 ± 0.111509 | 0.632367 ± 0.073943
+256D/10L | Training | elder_side | 0.942230 ± 0.027117 | 0.942010 ± 0.027410
+256D/10L | Training | first_baron_side | 0.664999 ± 0.010563 | 0.463357 ± 0.008243
+256D/10L | Playoff | winner_side | 0.589238 ± 0.015485 | 0.583354 ± 0.021210
+256D/10L | Playoff | first_dragon_side | 0.550224 ± 0.011166 | 0.522489 ± 0.033724
+256D/10L | Playoff | more_dragons_side | 0.467813 ± 0.018188 | 0.341864 ± 0.022965
+256D/10L | Playoff | first_four_dragon_side | 0.496314 ± 0.042379 | 0.359767 ± 0.038140
+256D/10L | Playoff | dragon_soul_side | 0.455305 ± 0.036984 | 0.354175 ± 0.025172
+256D/10L | Playoff | elder_occurs | 0.678325 ± 0.125611 | 0.489664 ± 0.041478
+256D/10L | Playoff | elder_side | 0.534694 ± 0.050816 | 0.519331 ± 0.064175
+256D/10L | Playoff | first_baron_side | 0.532584 ± 0.030233 | 0.356018 ± 0.024508
+16D/8L | Training | winner_side | 0.699016 ± 0.015874 | 0.693800 ± 0.019865
+16D/8L | Training | first_dragon_side | 0.600041 ± 0.005213 | 0.550103 ± 0.042791
+16D/8L | Training | more_dragons_side | 0.581720 ± 0.017267 | 0.405646 ± 0.015696
+16D/8L | Training | first_four_dragon_side | 0.593642 ± 0.058453 | 0.449448 ± 0.056881
+16D/8L | Training | dragon_soul_side | 0.529191 ± 0.045190 | 0.384852 ± 0.075067
+16D/8L | Training | elder_occurs | 0.653440 ± 0.120514 | 0.552962 ± 0.064601
+16D/8L | Training | elder_side | 0.721622 ± 0.061828 | 0.710852 ± 0.080905
+16D/8L | Training | first_baron_side | 0.604388 ± 0.010221 | 0.411538 ± 0.011509
+16D/8L | Playoff | winner_side | 0.609865 ± 0.036534 | 0.589253 ± 0.056068
+16D/8L | Playoff | first_dragon_side | 0.537668 ± 0.006222 | 0.459418 ± 0.062239
+16D/8L | Playoff | more_dragons_side | 0.467813 ± 0.015501 | 0.308239 ± 0.022618
+16D/8L | Playoff | first_four_dragon_side | 0.518428 ± 0.054858 | 0.340174 ± 0.046595
+16D/8L | Playoff | dragon_soul_side | 0.475241 ± 0.049886 | 0.286698 ± 0.053781
+16D/8L | Playoff | elder_occurs | 0.689655 ± 0.088258 | 0.505519 ± 0.024976
+16D/8L | Playoff | elder_side | 0.473469 ± 0.046538 | 0.453109 ± 0.069257
+16D/8L | Playoff | first_baron_side | 0.530337 ± 0.012712 | 0.343066 ± 0.026759
+16D/10L | Training | winner_side | 0.702623 ± 0.007527 | 0.697300 ± 0.016211
+16D/10L | Training | first_dragon_side | 0.597008 ± 0.010883 | 0.510254 ± 0.060461
+16D/10L | Training | more_dragons_side | 0.579383 ± 0.006551 | 0.405591 ± 0.007516
+16D/10L | Training | first_four_dragon_side | 0.571295 ± 0.073866 | 0.436816 ± 0.060619
+16D/10L | Training | dragon_soul_side | 0.533598 ± 0.042272 | 0.384516 ± 0.076808
+16D/10L | Training | elder_occurs | 0.708335 ± 0.092777 | 0.580826 ± 0.050723
+16D/10L | Training | elder_side | 0.701689 ± 0.067942 | 0.682772 ± 0.098905
+16D/10L | Training | first_baron_side | 0.604962 ± 0.019481 | 0.410199 ± 0.020474
+16D/10L | Playoff | winner_side | 0.617040 ± 0.016958 | 0.606784 ± 0.028663
+16D/10L | Playoff | first_dragon_side | 0.543498 ± 0.013035 | 0.422076 ± 0.067525
+16D/10L | Playoff | more_dragons_side | 0.483047 ± 0.012838 | 0.321852 ± 0.025340
+16D/10L | Playoff | first_four_dragon_side | 0.506143 ± 0.067735 | 0.318143 ± 0.049800
+16D/10L | Playoff | dragon_soul_side | 0.475241 ± 0.040507 | 0.268123 ± 0.033148
+16D/10L | Playoff | elder_occurs | 0.740394 ± 0.068626 | 0.523664 ± 0.011311
+16D/10L | Playoff | elder_side | 0.457143 ± 0.055140 | 0.434937 ± 0.061533
+16D/10L | Playoff | first_baron_side | 0.536180 ± 0.018975 | 0.344175 ± 0.028886

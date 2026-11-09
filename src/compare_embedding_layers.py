@@ -19,7 +19,15 @@ from src.preprocess import fingerprint, write_csv, write_json
 from src.utils import ROOT, load_checkpoint, prepare_output_dir, select_device
 
 
-VARIANTS = ((256, 6), (16, 6), (256, 8), (256, 10), (16, 8), (16, 10))
+DEFAULT_RUNS = {
+    (256, 6): 'layers_6_20261002_141236_234000',
+    (16, 6): 'layers_6_emb16_20261027_230106_319953',
+    (256, 8): 'layers_8_20261027_232239_332803',
+    (256, 10): 'layers_10_20261027_233011_200376',
+    (16, 8): 'layers_8_emb16_20261027_231730_292739',
+    (16, 10): 'layers_10_emb16_20261027_232510_052859',
+}
+VARIANTS = tuple(DEFAULT_RUNS)
 
 
 def read_json(path):
@@ -68,14 +76,17 @@ def summarize(run_dirs, output, device, allow_different_test=False):
                 raise ValueError(f'Model/seed configuration mismatch: {run}')
             # Reject mixed splits, task definitions or optimization settings.
             signature = {
-                'sources': {k: v['sha256'] for k, v in config['sources'].items()},
+                'train_sha256': config['sources']['train']['sha256'],
+                # Compare the saved ID mappings so LF and CRLF serialize the same vocabulary.
+                'player_vocab': read_json(run / 'player_vocab.json'),
+                'champion_vocab': read_json(run / 'champion_vocab.json'),
                 'input_columns': config['input_columns'], 'task_classes': config['task_classes'],
                 'task_loss_weights': config['task_loss_weights'],
                 'class_weighting': config['class_weighting'],
                 'training': {k: args[k] for k in ('epochs', 'batch_size', 'lr', 'weight_decay',
                                                 'grad_clip', 'class_weight')},
             }
-            test_sources[str(run)] = {'sha256': signature['sources'].pop('test'),
+            test_sources[str(run)] = {'sha256': config['sources']['test']['sha256'],
                                       'games': config['dataset_summary']['test']['games']}
             if reference is None:
                 reference = signature
@@ -134,9 +145,10 @@ def summarize(run_dirs, output, device, allow_different_test=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for dimensions, layers in VARIANTS:
-        parser.add_argument(f'--emb{dimensions}-{layers}l', type=Path, required=True,
-                            help='Existing experiment root containing all five seed directories')
+    for (dimensions, layers), dirname in DEFAULT_RUNS.items():
+        parser.add_argument(f'--emb{dimensions}-{layers}l', type=Path,
+                            default=ROOT / 'runs' / dirname,
+                            help=f'Existing five-seed run (default: runs/{dirname})')
     parser.add_argument('--output-dir', type=Path)
     parser.add_argument('--device', choices=('auto', 'cuda', 'mps', 'cpu'), default='auto')
     parser.add_argument('--threads', type=int, default=4)
